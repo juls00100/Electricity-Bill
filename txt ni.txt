@@ -1,0 +1,19 @@
+Lucida Sans
+Bold Italic 24
+
+Bills bp = new Bills(); 
+    bp.setVisible(true);
+    this.dispose();
+
+segoe ui bold 16 - for forms
+
+57, 122, 0 - GREEN
+	179, 0, 0 - RED
+	255, 144, 0 - ORANGE
+
+[0,204,204] - cyan
+
+
+700, 500 - lay out
+
+
