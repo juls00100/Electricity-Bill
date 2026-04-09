@@ -17,6 +17,9 @@ public class register extends javax.swing.JFrame {
      */
     public register() {
         initComponents();
+        
+    config.stylePanelButton(LOGIN,    "login");
+    config.stylePanelButton(REGISTER, "register");
     }
 
     /**
@@ -39,7 +42,7 @@ public class register extends javax.swing.JFrame {
         passwordfield = new javax.swing.JPasswordField();
         LOGIN = new javax.swing.JPanel();
         login = new javax.swing.JLabel();
-        register2 = new javax.swing.JPanel();
+        REGISTER = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -133,20 +136,20 @@ public class register extends javax.swing.JFrame {
 
         bg.add(LOGIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 320, 110, 30));
 
-        register2.setBackground(new java.awt.Color(26, 26, 46));
-        register2.setForeground(new java.awt.Color(0, 153, 153));
-        register2.addMouseListener(new java.awt.event.MouseAdapter() {
+        REGISTER.setBackground(new java.awt.Color(26, 26, 46));
+        REGISTER.setForeground(new java.awt.Color(0, 153, 153));
+        REGISTER.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                register2MouseClicked(evt);
+                REGISTERMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                register2MouseEntered(evt);
+                REGISTERMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                register2MouseExited(evt);
+                REGISTERMouseExited(evt);
             }
         });
-        register2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        REGISTER.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -161,9 +164,9 @@ public class register extends javax.swing.JFrame {
                 jLabel12MouseClicked(evt);
             }
         });
-        register2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
+        REGISTER.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        bg.add(register2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 110, 30));
+        bg.add(REGISTER, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 110, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setText("Already have an account?");
@@ -282,19 +285,19 @@ public class register extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel12MouseClicked
 
-    private void register2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_register2MouseClicked
+    private void REGISTERMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REGISTERMouseClicked
         login log = new login();
         log.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_register2MouseClicked
+    }//GEN-LAST:event_REGISTERMouseClicked
 
-    private void register2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_register2MouseEntered
+    private void REGISTERMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REGISTERMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_register2MouseEntered
+    }//GEN-LAST:event_REGISTERMouseEntered
 
-    private void register2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_register2MouseExited
+    private void REGISTERMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REGISTERMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_register2MouseExited
+    }//GEN-LAST:event_REGISTERMouseExited
 
     /**
      * @param args the command line arguments
@@ -334,6 +337,7 @@ public class register extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LOGIN;
+    private javax.swing.JPanel REGISTER;
     private javax.swing.JTextField address_field;
     private javax.swing.JPanel bg;
     private javax.swing.JTextField emailfield;
@@ -351,7 +355,6 @@ public class register extends javax.swing.JFrame {
     private javax.swing.JTextField lname_field;
     private javax.swing.JLabel login;
     private javax.swing.JPasswordField passwordfield;
-    private javax.swing.JPanel register2;
     private javax.swing.JTextField usernamefield1;
     // End of variables declaration//GEN-END:variables
 }

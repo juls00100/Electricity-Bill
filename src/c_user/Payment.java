@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package c_user;
+package b_admin;
 
 import c_user.BillReceipt;
 import b_admin.Bills;
@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import d_main.login;
 import c_user.user_dashboard;
 import a_config.session;
+import c_user.BillReceipt;
+import c_user.user_dashboard;
 
 
 /**
@@ -43,6 +45,13 @@ public Payment(String accNum, String billID, String amount, String cash, String 
     this.cash = cash;
     this.change = change;
     this.date = date;
+       config.styleButton(searchbtn,      "search");
+    config.stylePanelButton(logoutbtn,  "logout");
+    config.stylePanelButton(userbtn,    "nav");
+    config.stylePanelButton(billsbtn,   "nav");
+    config.stylePanelButton(paymentbtn, "nav-active");
+    config.stylePanelButton(settingsbtn,"nav");
+    config.stylePanelButton(logsbtn,    "nav");
 
  
     setupTableColumns(); // Siguraduhin na may columns ang table
@@ -50,7 +59,13 @@ public Payment(String accNum, String billID, String amount, String cash, String 
 }
 
     public Payment() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           config.styleButton(searchbtn,      "search");
+    config.stylePanelButton(logoutbtn,  "logout");
+    config.stylePanelButton(userbtn,    "nav");
+    config.stylePanelButton(billsbtn,   "nav");
+    config.stylePanelButton(paymentbtn, "nav-active");
+    config.stylePanelButton(settingsbtn,"nav");
+    config.stylePanelButton(logsbtn,    "nav");
     }
 
 
@@ -107,9 +122,10 @@ private void setupTableColumns() {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         paymenttable = new javax.swing.JTable();
-        welcometxt1 = new javax.swing.JLabel();
         searchfield = new javax.swing.JTextField();
         searchbtn = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -282,12 +298,6 @@ private void setupTableColumns() {
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 450, 300));
 
-        welcometxt1.setBackground(new java.awt.Color(0, 0, 0));
-        welcometxt1.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
-        welcometxt1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        welcometxt1.setText(" Payment History");
-        jPanel3.add(welcometxt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 500, 50));
-
         searchfield.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
         searchfield.setPreferredSize(new java.awt.Dimension(350, 40));
         jPanel3.add(searchfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 330, 30));
@@ -303,6 +313,17 @@ private void setupTableColumns() {
             }
         });
         jPanel3.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 110, 30));
+
+        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText(" Payment History");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -440,6 +461,7 @@ private void setupTableColumns() {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -447,6 +469,7 @@ private void setupTableColumns() {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel logoutbtn;
@@ -457,7 +480,6 @@ private void setupTableColumns() {
     private javax.swing.JTextField searchfield;
     private javax.swing.JPanel settingsbtn;
     private javax.swing.JPanel userbtn;
-    private javax.swing.JLabel welcometxt1;
     // End of variables declaration//GEN-END:variables
 
     private void logAction(String action) {

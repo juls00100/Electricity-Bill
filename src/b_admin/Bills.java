@@ -5,32 +5,36 @@
  */
 package b_admin;
 
+
 import b_admin.AddBills;
 import b_admin.Logs;
 import b_admin.Setting;
 import b_admin.admin_dashboard;
 import a_config.billsmodel;
 import a_config.config;
+import a_config.session;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import d_main.login;
-import c_user.Payment;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.proteanit.sql.DbUtils;
+import a_config.config;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
-/**
- *
- * @author Administrator
- */
-// Sa sulod sa Bills.java
 public class Bills extends javax.swing.JFrame {
+
     String name; // Mao ni ang naggunit sa username
     config db = new config();
     private String currentUsername;
@@ -41,14 +45,50 @@ public class Bills extends javax.swing.JFrame {
         this.name = loginName; // I-save ang username nga gi-pasa
         displayData();
     }
-
+    
     public Bills() {
         initComponents();
+        displayData();
+
+        
+        config.stylePanelButton(PROFILE, "nav");
+        config.styleButton(addbills,  "add");
+        config.styleButton(editbill,  "edit");
+        config.styleButton(editbill1, "delete");
+        config.styleButton(searchbtn, "search");
+        config.stylePanelButton(logoutbtn, "logout");
+        config.stylePanelButton(HOME,      "nav");
+        config.stylePanelButton(BILLS,     "nav-active");
+        config.stylePanelButton(PROFILE,   "nav");
+        config.stylePanelButton(SETTINGS,  "nav");
     }
+    
+    public void displayData() {
+    try {
+        java.sql.Connection conn = db.connectDB();
+        
+        // This query joins the bills and users table
+        // It gets the Account Number from 'users' using the 'u_id' found in 'bills'
+        String query = "SELECT b.b_id AS 'Bill ID', " +
+                       "u.u_accnum AS 'Account #', " + 
+                       "b.b_month AS 'Month', " +
+                       "b.b_status AS 'Status' " +
+                       "FROM bills b " +
+                       "INNER JOIN users u ON b.u_id = u.u_id"; 
 
-
-
-
+        java.sql.PreparedStatement pst = conn.prepareStatement(query);
+        java.sql.ResultSet rs = pst.executeQuery();
+        
+        // This will now fill your table with the joined data
+        billstable.setModel(DbUtils.resultSetToTableModel(rs));
+        
+        rs.close();
+        pst.close();
+        conn.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,32 +100,29 @@ public class Bills extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         logoutbtn = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        userbtn = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        billsbtn = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        paymentbtn = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        settingsbtn = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        logsbtn = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        welcometxt1 = new javax.swing.JLabel();
+        HOME = new javax.swing.JPanel();
+        home = new javax.swing.JLabel();
+        BILLS = new javax.swing.JPanel();
+        bills = new javax.swing.JLabel();
+        PROFILE = new javax.swing.JPanel();
+        profile = new javax.swing.JLabel();
+        SETTINGS = new javax.swing.JPanel();
+        settings = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        PROFILE1 = new javax.swing.JPanel();
+        profile2 = new javax.swing.JLabel();
         searchfield = new javax.swing.JTextField();
         searchbtn = new javax.swing.JButton();
         addbills = new javax.swing.JButton();
         editbill = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         billstable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        editbill1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -98,14 +135,7 @@ public class Bills extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("PowerPay");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 30, 220, -1));
-
-        logoutbtn.setBackground(new java.awt.Color(0, 153, 153));
-        logoutbtn.setForeground(new java.awt.Color(44, 62, 80));
+        logoutbtn.setBackground(new java.awt.Color(255, 0, 0));
         logoutbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logoutbtnMouseClicked(evt);
@@ -120,140 +150,163 @@ public class Bills extends javax.swing.JFrame {
         logoutbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Logout");
-        logoutbtn.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        logoutbtn.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(logoutbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 200, 40));
-
-        userbtn.setBackground(new java.awt.Color(0, 153, 153));
-        userbtn.setForeground(new java.awt.Color(44, 62, 80));
-        userbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("LOGOUT");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                userbtnMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                userbtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                userbtnMouseExited(evt);
+                jLabel7MouseClicked(evt);
             }
         });
-        userbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        logoutbtn.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+        logoutbtn.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Users");
-        userbtn.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        userbtn.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jPanel1.add(logoutbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 170, 40));
 
-        jPanel1.add(userbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 200, 40));
-
-        billsbtn.setBackground(new java.awt.Color(0, 153, 153));
-        billsbtn.setForeground(new java.awt.Color(44, 62, 80));
-        billsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        HOME.setBackground(new java.awt.Color(0, 153, 153));
+        HOME.setForeground(new java.awt.Color(0, 153, 153));
+        HOME.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                billsbtnMouseClicked(evt);
+                HOMEMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                billsbtnMouseEntered(evt);
+                HOMEMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                billsbtnMouseExited(evt);
+                HOMEMouseExited(evt);
             }
         });
-        billsbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        HOME.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Bills");
-        billsbtn.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        billsbtn.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(billsbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 200, 40));
-
-        paymentbtn.setBackground(new java.awt.Color(0, 153, 153));
-        paymentbtn.setForeground(new java.awt.Color(44, 62, 80));
-        paymentbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        home.setBackground(new java.awt.Color(255, 255, 255));
+        home.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        home.setText("USERS");
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                paymentbtnMouseClicked(evt);
+                homeMouseClicked(evt);
+            }
+        });
+        HOME.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 160, -1));
+
+        jPanel1.add(HOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 150, 40));
+
+        BILLS.setBackground(new java.awt.Color(0, 204, 204));
+        BILLS.setForeground(new java.awt.Color(0, 153, 153));
+        BILLS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BILLSMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                paymentbtnMouseEntered(evt);
+                BILLSMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                paymentbtnMouseExited(evt);
+                BILLSMouseExited(evt);
             }
         });
-        paymentbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        BILLS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Payments");
-        paymentbtn.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        paymentbtn.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(paymentbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 200, 40));
-
-        settingsbtn.setBackground(new java.awt.Color(0, 153, 153));
-        settingsbtn.setForeground(new java.awt.Color(44, 62, 80));
-        settingsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        bills.setBackground(new java.awt.Color(0, 153, 153));
+        bills.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        bills.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bills.setText("BILLS");
+        bills.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                settingsbtnMouseClicked(evt);
+                billsMouseClicked(evt);
+            }
+        });
+        BILLS.add(bills, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 150, 20));
+
+        jPanel1.add(BILLS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 150, 40));
+
+        PROFILE.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFILEMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                settingsbtnMouseEntered(evt);
+                PROFILEMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                settingsbtnMouseExited(evt);
+                PROFILEMouseExited(evt);
             }
         });
-        settingsbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        PROFILE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Settings");
-        settingsbtn.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        settingsbtn.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(settingsbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 200, 40));
-
-        logsbtn.setBackground(new java.awt.Color(0, 153, 153));
-        logsbtn.setForeground(new java.awt.Color(44, 62, 80));
-        logsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        profile.setBackground(new java.awt.Color(255, 255, 255));
+        profile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile.setText("PAYMENTS");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logsbtnMouseClicked(evt);
+                profileMouseClicked(evt);
+            }
+        });
+        PROFILE.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+
+        jPanel1.add(PROFILE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 170, 40));
+
+        SETTINGS.setBackground(new java.awt.Color(0, 153, 153));
+        SETTINGS.setForeground(new java.awt.Color(0, 153, 153));
+        SETTINGS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logsbtnMouseEntered(evt);
+                SETTINGSMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                logsbtnMouseExited(evt);
+                SETTINGSMouseExited(evt);
             }
         });
-        logsbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        SETTINGS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Logs");
-        logsbtn.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        logsbtn.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        settings.setBackground(new java.awt.Color(255, 255, 255));
+        settings.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        settings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        settings.setText("SETTINGS");
+        settings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsMouseClicked(evt);
+            }
+        });
+        SETTINGS.add(settings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 140, -1));
 
-        jPanel1.add(logsbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 200, 40));
+        jPanel1.add(SETTINGS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 150, 40));
 
-        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 490));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/powerr (1).png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 110, 90));
 
-        welcometxt1.setBackground(new java.awt.Color(0, 0, 0));
-        welcometxt1.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
-        welcometxt1.setText("Manage Bills");
-        jPanel3.add(welcometxt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 50));
+        PROFILE1.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE1.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseExited(evt);
+            }
+        });
+        PROFILE1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        profile2.setBackground(new java.awt.Color(255, 255, 255));
+        profile2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile2.setText("PROFILE");
+        profile2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profile2MouseClicked(evt);
+            }
+        });
+        PROFILE1.add(profile2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 130, -1));
+
+        jPanel1.add(PROFILE1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 170, 40));
+
+        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 500));
 
         searchfield.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
         searchfield.setPreferredSize(new java.awt.Dimension(350, 40));
@@ -262,7 +315,7 @@ public class Bills extends javax.swing.JFrame {
                 searchfieldKeyReleased(evt);
             }
         });
-        jPanel3.add(searchfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 250, 30));
+        jPanel3.add(searchfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 180, 30));
 
         searchbtn.setBackground(new java.awt.Color(44, 62, 80));
         searchbtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -274,7 +327,7 @@ public class Bills extends javax.swing.JFrame {
                 searchbtnActionPerformed(evt);
             }
         });
-        jPanel3.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 110, 70, 30));
+        jPanel3.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 100, 70, 30));
 
         addbills.setBackground(new java.awt.Color(44, 62, 80));
         addbills.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -286,7 +339,7 @@ public class Bills extends javax.swing.JFrame {
                 addbillsActionPerformed(evt);
             }
         });
-        jPanel3.add(addbills, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 60, 30));
+        jPanel3.add(addbills, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 60, 30));
 
         editbill.setBackground(new java.awt.Color(44, 62, 80));
         editbill.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -298,8 +351,9 @@ public class Bills extends javax.swing.JFrame {
                 editbillActionPerformed(evt);
             }
         });
-        jPanel3.add(editbill, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 60, 30));
+        jPanel3.add(editbill, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 60, 30));
 
+        billstable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         billstable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -310,214 +364,297 @@ public class Bills extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(billstable);
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, -1, 290));
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 140, 470, 320));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 748, 497));
+        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Manage Bills");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
+
+        editbill1.setBackground(new java.awt.Color(44, 62, 80));
+        editbill1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editbill1.setText("Delete");
+        editbill1.setBorder(null);
+        editbill1.setPreferredSize(new java.awt.Dimension(350, 40));
+        editbill1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editbill1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(editbill1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 60, 30));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        session.getInstance().logout(this);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
     private void logoutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseClicked
-        new login().setVisible(true);
-        logAction("Admin Logged Out.");
-        this.dispose();
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(null,
+            "Do you really want to log out?",
+            "Logout Confirmation",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            config conf = new config();
+            //conf.logEvent("User Logged Out");
+            login loginFrame = new login();
+            loginFrame.setVisible(true);
+            this.dispose();
+        } else {
+            System.out.println("Logout cancelled by user.");
+        }
     }//GEN-LAST:event_logoutbtnMouseClicked
 
     private void logoutbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseEntered
+
     }//GEN-LAST:event_logoutbtnMouseEntered
 
     private void logoutbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseExited
+
     }//GEN-LAST:event_logoutbtnMouseExited
 
-    private void userbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userbtnMouseClicked
-        new admin_dashboard("User Name").setVisible(true);
+    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
+        admin_dashboard ud = new admin_dashboard(); // I-pasa ang name
+        ud.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_userbtnMouseClicked
+    }//GEN-LAST:event_homeMouseClicked
 
-    private void userbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userbtnMouseEntered
-    }//GEN-LAST:event_userbtnMouseEntered
+    private void HOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HOMEMouseClicked
 
-    private void userbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userbtnMouseExited
-    }//GEN-LAST:event_userbtnMouseExited
+    private void HOMEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseEntered
 
-    private void billsbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsbtnMouseClicked
-    Bills b = new Bills(this.name); 
-    b.setVisible(true);
-    this.dispose(); // I-close ang dashboard para mobalhin sa Bills
+    }//GEN-LAST:event_HOMEMouseEntered
 
-    }//GEN-LAST:event_billsbtnMouseClicked
+    private void HOMEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseExited
 
-    private void billsbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsbtnMouseEntered
-    }//GEN-LAST:event_billsbtnMouseEntered
+    }//GEN-LAST:event_HOMEMouseExited
 
-    private void billsbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsbtnMouseExited
-    }//GEN-LAST:event_billsbtnMouseExited
-
-    private void paymentbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentbtnMouseClicked
-        new Payment().setVisible(true);
+    private void billsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsMouseClicked
+        Bills bp = new Bills(); // Ang page diin makita ang "Add" button
+        bp.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_paymentbtnMouseClicked
+    }//GEN-LAST:event_billsMouseClicked
 
-    private void paymentbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentbtnMouseEntered
-    }//GEN-LAST:event_paymentbtnMouseEntered
+    private void BILLSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseClicked
 
-    private void paymentbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentbtnMouseExited
-    }//GEN-LAST:event_paymentbtnMouseExited
+    }//GEN-LAST:event_BILLSMouseClicked
 
-    private void settingsbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsbtnMouseClicked
-        new Setting().setVisible(true);
+    private void BILLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseEntered
+
+    }//GEN-LAST:event_BILLSMouseEntered
+
+    private void BILLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseExited
+
+    }//GEN-LAST:event_BILLSMouseExited
+
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+         Payment1 py = new Payment1();
+        py.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_settingsbtnMouseClicked
+    }//GEN-LAST:event_profileMouseClicked
 
-    private void settingsbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsbtnMouseEntered
-    }//GEN-LAST:event_settingsbtnMouseEntered
+    private void PROFILEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseClicked
 
-    private void settingsbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsbtnMouseExited
-    }//GEN-LAST:event_settingsbtnMouseExited
+    }//GEN-LAST:event_PROFILEMouseClicked
 
-    private void logsbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsbtnMouseClicked
-        new Logs().setVisible(true);
+    private void PROFILEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseEntered
+
+    }//GEN-LAST:event_PROFILEMouseEntered
+
+    private void PROFILEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseExited
+
+    }//GEN-LAST:event_PROFILEMouseExited
+
+    private void settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsMouseClicked
+        Setting st = new Setting();
+        st.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_logsbtnMouseClicked
+    }//GEN-LAST:event_settingsMouseClicked
 
-    private void logsbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsbtnMouseEntered
-    }//GEN-LAST:event_logsbtnMouseEntered
+    private void SETTINGSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseClicked
 
-    private void logsbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsbtnMouseExited
-    }//GEN-LAST:event_logsbtnMouseExited
+    }//GEN-LAST:event_SETTINGSMouseClicked
 
-    private void searchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbtnActionPerformed
-    String searchTxt = searchfield.getText().trim();
-    
-    // I-filter ang search base sa username aron dili makita ang bills sa uban
-    String query = "SELECT bill_id AS 'Bill ID', b_amount AS 'Amount', "
-                 + "b_status AS 'Status', due_date AS 'Due Date' "
-                 + "FROM bills WHERE username = '" + this.name + "' "
-                 + "AND (bill_id LIKE '%" + searchTxt + "%' OR b_status LIKE '%" + searchTxt + "%')";
-    
-    try {
-        ResultSet rs = db.getData(query);
-        billstable.setModel(DbUtils.resultSetToTableModel(rs));
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Search Error: " + e.getMessage());
-    }
+    private void SETTINGSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseEntered
 
-    }//GEN-LAST:event_searchbtnActionPerformed
+    }//GEN-LAST:event_SETTINGSMouseEntered
 
-    private void addbillsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbillsActionPerformed
-    AddBills ab = new AddBills();
-    ab.setVisible(true);
-    this.dispose();
-    }//GEN-LAST:event_addbillsActionPerformed
+    private void SETTINGSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseExited
 
-    private void editbillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbillActionPerformed
-    int row = billstable.getSelectedRow();
-    if(row != -1) {
-        String id = billstable.getValueAt(row, 0).toString();
-        EditBill eb = new EditBill();
-        eb.loadBill(Integer.parseInt(id)); // I-load ang data sa bill sa fields
-        eb.setVisible(true);
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select bill to edit!");
-    }
-
-    }//GEN-LAST:event_editbillActionPerformed
+    }//GEN-LAST:event_SETTINGSMouseExited
 
     private void searchfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchfieldKeyReleased
 
     }//GEN-LAST:event_searchfieldKeyReleased
 
+    private void searchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbtnActionPerformed
+        String searchTxt = searchfield.getText().trim();
+
+        // I-filter ang search base sa username aron dili makita ang bills sa uban
+        String query = "SELECT bill_id AS 'Bill ID', b_amount AS 'Amount', "
+        + "b_status AS 'Status', due_date AS 'Due Date' "
+        + "FROM bills WHERE username = '" + this.name + "' "
+        + "AND (bill_id LIKE '%" + searchTxt + "%' OR b_status LIKE '%" + searchTxt + "%')";
+
+        try {
+            ResultSet rs = db.getData(query);
+            billstable.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Search Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchbtnActionPerformed
+
+    private void addbillsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbillsActionPerformed
+        AddBills ab = new AddBills();
+        ab.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_addbillsActionPerformed
+
+    private void editbillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbillActionPerformed
+        int selectedRow = billstable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a bill to edit.");
+            return;
+        }
+        int billID = (int) billstable.getValueAt(selectedRow, 0); // column 0 = b_id
+        EditBill eb = new EditBill(billID);
+        eb.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_editbillActionPerformed
+
+    private void editbill1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbill1ActionPerformed
+        int selectedRow = billstable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(null, "Please select a bill to delete.");
+                return;
+            }
+
+            int billID = (int) billstable.getValueAt(selectedRow, 0); // column 0 = b_id
+
+            int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete Bill ID: " + billID + "?",
+                "Delete Confirmation",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    config conf = new config();
+                    java.sql.Connection conn = conf.connectDB();
+                    String sql = "DELETE FROM bills WHERE b_id = ?";
+                    java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setInt(1, billID);
+                    int rows = pst.executeUpdate();
+                    pst.close();
+                    conn.close();
+
+                    if (rows > 0) {
+                        JOptionPane.showMessageDialog(null, "Bill deleted successfully!");
+                        displayData(); // refresh the table
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Delete failed. Bill not found.");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+    }//GEN-LAST:event_editbill1ActionPerformed
+
+    private void profile2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile2MouseClicked
+       Profile prf = new Profile();
+    prf.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_profile2MouseClicked
+
+    private void PROFILE1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseClicked
+
+    }//GEN-LAST:event_PROFILE1MouseClicked
+
+    private void PROFILE1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseEntered
+
+    }//GEN-LAST:event_PROFILE1MouseEntered
+
+    private void PROFILE1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseExited
+
+    }//GEN-LAST:event_PROFILE1MouseExited
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-           
-            javax.swing.JOptionPane.showMessageDialog(null, "Direct access is forbidden! Please login first.");
-            new login().setVisible(true);
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Bills.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Bills.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Bills.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Bills.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    });
+        //</editor-fold>
+        //</editor-fold>
 
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Bills().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel BILLS;
+    private javax.swing.JPanel HOME;
+    private javax.swing.JPanel PROFILE;
+    private javax.swing.JPanel PROFILE1;
+    public javax.swing.JPanel SETTINGS;
     private javax.swing.JButton addbills;
-    private javax.swing.JPanel billsbtn;
+    private javax.swing.JLabel bills;
     private javax.swing.JTable billstable;
     private javax.swing.JButton editbill;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
+    private javax.swing.JButton editbill1;
+    private javax.swing.JLabel home;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel logoutbtn;
-    private javax.swing.JPanel logsbtn;
-    private javax.swing.JPanel paymentbtn;
+    private javax.swing.JLabel profile;
+    private javax.swing.JLabel profile2;
     private javax.swing.JButton searchbtn;
     private javax.swing.JTextField searchfield;
-    private javax.swing.JPanel settingsbtn;
-    private javax.swing.JPanel userbtn;
-    private javax.swing.JLabel welcometxt1;
+    private javax.swing.JLabel settings;
     // End of variables declaration//GEN-END:variables
-
-    private void logAction(String admin_Logged_Out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void displayData() {
-    try {
-        // 1. Siguruha nga ang query mokuha sa data gikan sa 'bills' table
-        // Gigamit nato ang 'this.name' para i-filter ang records sa maong user lang
-        String query = "SELECT bill_id AS 'Bill ID', b_amount AS 'Amount', "
-                     + "b_status AS 'Status', due_date AS 'Due Date' "
-                     + "FROM bills WHERE username = '" + this.name + "'";
-        
-        ResultSet rs = db.getData(query);
-        
-        // 2. I-check ang variable name sa imong JTable. 
-        // Siguruha nga 'billstable' ang name niini sa Design View.
-        billstable.setModel(DbUtils.resultSetToTableModel(rs)); 
-        
-        System.out.println("DEBUG: Data successfully loaded for: " + this.name);
-        
-    } catch (SQLException e) {
-        System.out.println("Error loading table: " + e.getMessage());
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
-    } catch (Exception e) {
-        System.out.println("General Error: " + e.getMessage());
-    }
 }
-    public static class StatementOfAccount {
-
-        public StatementOfAccount() {
-        
-        }
-
-        public void setVisible(boolean b) {
-    StatementOfAccount soa = new StatementOfAccount();
-    soa.setVisible(true);
-}
-
-        public void loadStatement(int parseInt) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    }
-
-   
-
-        }
-    
-

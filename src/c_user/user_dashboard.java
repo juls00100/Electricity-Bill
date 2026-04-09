@@ -34,6 +34,16 @@ public class user_dashboard extends javax.swing.JFrame {
     // 2. CONSTRUCTOR (Diri ang tawag sa method)
   public user_dashboard(String loginName) {
     initComponents();
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav-active");
+    config.stylePanelButton(BILLS,     "nav");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+    config.stylePanelButton(RECEIPT,   "receipt");
+    config.stylePanelButton(SOA,       "soa");
+    config.stylePanelButton(PENDING,   "pending");
+    config.stylePanelButton(PAID,      "paid");
+    config.stylePanelButton(PAY,       "pay");
     
     session sess = session.getInstance();
     
@@ -56,6 +66,17 @@ public class user_dashboard extends javax.swing.JFrame {
 }
   public user_dashboard() {
         initComponents(); 
+        
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav-active");
+    config.stylePanelButton(BILLS,     "nav");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+    config.stylePanelButton(RECEIPT,   "receipt");
+    config.stylePanelButton(SOA,       "soa");
+    config.stylePanelButton(PENDING,   "pending");
+    config.stylePanelButton(PAID,      "paid");
+    config.stylePanelButton(PAY,       "pay");
         
        
        session sess = session.getInstance(); 
@@ -102,6 +123,8 @@ public class user_dashboard extends javax.swing.JFrame {
         paid = new javax.swing.JLabel();
         PAY = new javax.swing.JPanel();
         pay = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -252,7 +275,7 @@ public class user_dashboard extends javax.swing.JFrame {
         welcometxt.setBackground(new java.awt.Color(0, 0, 0));
         welcometxt.setFont(new java.awt.Font("Lucida Sans", 3, 18)); // NOI18N
         welcometxt.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel3.add(welcometxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 320, 50));
+        jPanel3.add(welcometxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 320, 30));
 
         mybillstable.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         mybillstable.setModel(new javax.swing.table.DefaultTableModel(
@@ -409,6 +432,17 @@ public class user_dashboard extends javax.swing.JFrame {
         PAY.add(pay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 2, 70, 30));
 
         jPanel3.add(PAY, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 70, 30));
+
+        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("User Dashboard");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
@@ -600,17 +634,22 @@ public class user_dashboard extends javax.swing.JFrame {
 
     private void payMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_payMouseClicked
     int row = mybillstable.getSelectedRow();
-        if(row == -1){
-            JOptionPane.showMessageDialog(null, "Please select a bill to pay.");
-        } else {
-            // Make sure column 0 is b_id and column 1 is b_amount
-            String bid = mybillstable.getValueAt(row, 0).toString();
-            String amt = mybillstable.getValueAt(row, 1).toString();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Please select a bill to pay.");
+    } else {
+        String bid    = mybillstable.getValueAt(row, 0).toString();
+        String amt    = mybillstable.getValueAt(row, 1).toString();
+        String status = mybillstable.getValueAt(row, 2).toString();
 
-            PayBill pb = new PayBill(bid, amt);
+        if (status.equalsIgnoreCase("Paid")) {
+            JOptionPane.showMessageDialog(null, "This bill is already paid.");
+        } else {
+            // ✅ Use bid and amt, not billID and amount
+            PayBill pb = new PayBill(bid, amt, this.name);
             pb.setVisible(true);
             this.dispose();
         }
+    }
     }//GEN-LAST:event_payMouseClicked
 
     private void PAYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PAYMouseClicked
@@ -655,9 +694,11 @@ public class user_dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel bills;
     private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel logoutbtn;

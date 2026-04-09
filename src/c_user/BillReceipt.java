@@ -6,6 +6,7 @@
 package c_user;
 
 import d_main.login;
+import a_config.config;
 
 /**
  *
@@ -29,10 +30,14 @@ public class BillReceipt extends javax.swing.JFrame {
         paymentdate.setText(cash);
         paymentmethod.setText(method);;
         amtpaid.setText(date);
+        config.styleButton(printreceipt, "print");
+    config.styleButton(closebtn,     "close");
     }
     // Default constructor (optional pero maayo naay ingon ani)
     public BillReceipt() {
         initComponents();
+        config.styleButton(printreceipt, "print");
+    config.styleButton(closebtn,     "close");
     }
 
 

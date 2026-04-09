@@ -2,7 +2,6 @@ package a_config;
 
 import java.security.MessageDigest;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +11,10 @@ import java.util.Vector; // Add this import at the top
 import javax.swing.table.DefaultTableModel; // Add this import at the top
 import java.sql.ResultSetMetaData; // Add this import at the top
 import javax.swing.JTable;
+import java.sql.*;
+import javax.swing.*;
+import java.text.SimpleDateFormat;
+
 
 
 public class config {
@@ -343,5 +346,151 @@ public class config {
         System.out.println("Update Error: " + e.getMessage());
         return false;
     }
+}
+    public String getAccountNumber(int userId) {
+    String accNum = "";
+    try {
+        Connection conn = this.connectDB(); // or db.connectDB() if calling from another class
+        String sql = "SELECT u_accnum FROM users WHERE u_id = ?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setInt(1, userId);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            accNum = rs.getString("u_accnum");
+        }
+        
+        rs.close();
+        pst.close();
+        conn.close();
+    } catch (SQLException e) {
+        System.out.println("Error fetching account number: " + e.getMessage());
+    }
+    return accNum;
+}
+    
+    public void printReceipt(javax.swing.JTable table, String userId) {
+        String today = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date());
+        String fullName = "Customer";
+        String address = "N/A";
+        String accNum = "N/A";
+
+        try (Connection conn = connectDB()) {
+            // We find the account number, name, and address using the u_id!
+            String sql = "SELECT u_accnum, u_fname, u_lname, u_address FROM users WHERE u_id = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, userId);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                accNum = rs.getString("u_accnum");
+                fullName = rs.getString("u_fname") + " " + rs.getString("u_lname");
+                address = rs.getString("u_address");
+            } else {
+                // If u_id search fails, we show what ID we were looking for
+                System.out.println("Could not find user with ID: " + userId);
+            }
+        } catch (Exception e) { 
+            System.out.println("Database Error: " + e.getMessage()); 
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("==================================================\n");
+        sb.append("           ELECTRIC BILLING SYSTEM              \n");
+        sb.append("               OFFICIAL RECEIPT                 \n");
+        sb.append("==================================================\n\n");
+        sb.append(" NAME:    ").append(fullName.toUpperCase()).append("\n");
+        sb.append(" ACCT #:  ").append(accNum.toUpperCase()).append("\n");
+        sb.append(" ADDR:    ").append(address.toUpperCase()).append("\n");
+        sb.append(" DATE:    ").append(today).append("\n");
+        sb.append("--------------------------------------------------\n");
+        sb.append(String.format(" %-12s %-12s %-15s\n", "ID", "AMOUNT", "DATE"));
+        sb.append("--------------------------------------------------\n");
+
+        for (int i = 0; i < table.getRowCount(); i++) {
+            String id = table.getValueAt(i, 0).toString();
+            String amt = table.getValueAt(i, 2).toString();
+            String dte = table.getValueAt(i, 3).toString();
+            sb.append(String.format(" %-12s %-12s %-15s\n", id, amt, dte));
+        }
+
+        sb.append("--------------------------------------------------\n");
+        sb.append("       THANK YOU FOR YOUR PAYMENT!        \n");
+        sb.append("==================================================");
+
+        javax.swing.JTextArea area = new javax.swing.JTextArea();
+        area.setText(sb.toString());
+        area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 9));
+        try {
+            area.print();
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Printer Error: " + e.getMessage());
+        }
+    }
+
+    // ===================== UI STYLING =====================
+
+// For JButton (admin_dashboard, Bills, Payment1, Setting, Logs)
+public static void styleButton(javax.swing.JButton btn, String type) {
+    java.awt.Color bg;
+    switch (type.toLowerCase()) {
+        case "pay":     bg = new java.awt.Color(57, 122, 0);   break; // Dark Green
+        case "soa":     bg = new java.awt.Color(41, 128, 185); break; // Blue
+        case "receipt": bg = new java.awt.Color(26, 26, 46);   break; // Navy
+        case "pending": bg = new java.awt.Color(243, 156, 18); break; // Orange
+        case "paid":    bg = new java.awt.Color(39, 174, 96);  break; // Green
+        case "back":    bg = new java.awt.Color(26, 26, 46);   break; // Navy
+        case "update":  bg = new java.awt.Color(57, 122, 0);   break; // Dark Green
+        case "select":  bg = new java.awt.Color(41, 128, 185); break; // Blue
+        case "print":   bg = new java.awt.Color(26, 26, 46);   break; // Navy
+        case "close":   bg = new java.awt.Color(192, 57, 43);  break; // Red
+        case "add":      bg = new java.awt.Color(39, 174, 96);  break; // Green
+        case "edit":     bg = new java.awt.Color(41, 128, 185); break; // Blue
+        case "delete":   bg = new java.awt.Color(192, 57, 43);  break; // Red
+        case "search":   bg = new java.awt.Color(44, 62, 80);   break; // Dark
+        case "save":     bg = new java.awt.Color(57, 122, 0);   break; // Dark Green
+        case "cancel":   bg = new java.awt.Color(255, 144, 0);  break; // Orange
+        case "logout":   bg = new java.awt.Color(192, 57, 43);  break; // Red
+        case "refresh":  bg = new java.awt.Color(44, 62, 80);   break; // Dark
+        case "activate": bg = new java.awt.Color(39, 174, 96);  break; // Green
+        default:         bg = new java.awt.Color(44, 62, 80);   break;
+    }
+    btn.setBackground(bg);
+    btn.setForeground(java.awt.Color.WHITE);
+    btn.setFocusPainted(false);
+    btn.setBorderPainted(false);
+    btn.setOpaque(true);
+    btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    btn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+    final java.awt.Color finalBg = bg;
+    btn.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseEntered(java.awt.event.MouseEvent e) { btn.setBackground(finalBg.darker()); }
+        public void mouseExited(java.awt.event.MouseEvent e)  { btn.setBackground(finalBg); }
+    });
+}
+
+// For JPanel used as a button (SAVE, CANCEL, logoutbtn, HOME, BILLS, PROFILE, SETTINGS)
+public static void stylePanelButton(javax.swing.JPanel panel, String type) {
+    java.awt.Color bg;
+    switch (type.toLowerCase()) {
+        case "save":     bg = new java.awt.Color(57, 122, 0);   break; // Dark Green
+        case "cancel":   bg = new java.awt.Color(255, 144, 0);  break; // Orange
+        case "logout":   bg = new java.awt.Color(192, 57, 43);  break; // Red
+        case "nav":      bg = new java.awt.Color(0, 153, 153);  break; // Teal (HOME,BILLS,etc)
+        case "nav-active": bg = new java.awt.Color(0, 204, 204); break; // Light Teal (active nav)
+        case "print":    bg = new java.awt.Color(26, 26, 46);   break; // Navy
+        case "login":    bg = new java.awt.Color(26, 26, 46);  break; // Teal
+        case "register": bg = new java.awt.Color(26, 26, 46);   break; // Navy
+        
+        default:         bg = new java.awt.Color(0, 153, 153);  break;
+    }
+    panel.setBackground(bg);
+    panel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    panel.setOpaque(true);
+    final java.awt.Color finalBg = bg;
+    panel.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseEntered(java.awt.event.MouseEvent e) { panel.setBackground(finalBg.darker()); }
+        public void mouseExited(java.awt.event.MouseEvent e)  { panel.setBackground(finalBg); }
+    });
 }
 }

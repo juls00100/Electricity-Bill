@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import d_main.login;
-import c_user.Payment;
 import c_user.user_dashboard;
 
 /**
@@ -29,7 +28,17 @@ public class Logs extends javax.swing.JFrame {
      */
     public Logs() {
     initComponents();
-    displayLogs(); // <--- IMPORTANTE: Idugang ni diri
+    displayLogs(); 
+    
+
+    config.styleButton(searchbtn, "search");
+    config.stylePanelButton(logoutbtn,   "logout");
+    config.stylePanelButton(userbtn,     "nav");
+    config.stylePanelButton(billsbtn,    "nav");
+    config.stylePanelButton(paymentbtn,  "nav");
+    config.stylePanelButton(settingsbtn, "nav");
+    config.stylePanelButton(logsbtn,     "nav-active");
+
 }
     /**
      * This method is called from within the constructor to initialize the form.

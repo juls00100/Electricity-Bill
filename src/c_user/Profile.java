@@ -32,7 +32,14 @@ public class Profile extends javax.swing.JFrame {
     public Profile(String loginName) {
     initComponents();
     this.name = loginName;
-    displayUserData(); // Tawgon kini aron mapuno ang mga textfields
+    displayUserData();
+    config.styleButton(selectProfile, "select");
+    config.stylePanelButton(UPDATE,    "update");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav");
+    config.stylePanelButton(PROFILE,   "nav-active");
+    config.stylePanelButton(SETTINGS,  "nav");
 
 }
 
@@ -92,7 +99,6 @@ private void displayUserData() {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        removeProfile = new javax.swing.JButton();
         selectProfile = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         fname = new javax.swing.JTextField();
@@ -116,6 +122,8 @@ private void displayUserData() {
         username = new javax.swing.JTextField();
         UPDATE = new javax.swing.JPanel();
         update = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,7 +150,7 @@ private void displayUserData() {
         });
         jPanel2.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 120));
 
-        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 140, 140));
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 140, 140));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel17.setText("Last Name:");
@@ -160,18 +168,6 @@ private void displayUserData() {
         jLabel20.setText("First Name:");
         jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 160, -1));
 
-        removeProfile.setBackground(new java.awt.Color(46, 134, 222));
-        removeProfile.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        removeProfile.setText("Remove");
-        removeProfile.setBorder(null);
-        removeProfile.setPreferredSize(new java.awt.Dimension(350, 40));
-        removeProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProfileActionPerformed(evt);
-            }
-        });
-        jPanel3.add(removeProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 90, 20));
-
         selectProfile.setBackground(new java.awt.Color(46, 134, 222));
         selectProfile.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         selectProfile.setText("Select");
@@ -182,7 +178,7 @@ private void displayUserData() {
                 selectProfileActionPerformed(evt);
             }
         });
-        jPanel3.add(selectProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 90, 20));
+        jPanel3.add(selectProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, 80, 20));
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel22.setText("Address:");
@@ -356,6 +352,7 @@ private void displayUserData() {
 
         update.setBackground(new java.awt.Color(255, 255, 255));
         update.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        update.setForeground(new java.awt.Color(240, 240, 240));
         update.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         update.setText("UPDATE");
         update.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -366,6 +363,17 @@ private void displayUserData() {
         UPDATE.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 170, -1));
 
         jPanel3.add(UPDATE, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 440, 170, 40));
+
+        jPanel4.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Profile");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -389,20 +397,6 @@ private void displayUserData() {
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_profileMouseClicked
-
-    private void removeProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProfileActionPerformed
-    profile.setIcon(null); 
-    profile.setText("No Image"); // O butangan nimo og default icon
-    
-    // I-clear ang path sa database
-    config.usersession session = config.usersession.getInstance();
-    int userId = session.getId();
-    updateUserImagePath(userId, ""); // Empty string or null
-    
-    JOptionPane.showMessageDialog(this, "Profile image removed!");
-
-
-    }//GEN-LAST:event_removeProfileActionPerformed
 
     private void selectProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectProfileActionPerformed
     JFileChooser browseImageFile = new JFileChooser();
@@ -615,6 +609,7 @@ private void displayUserData() {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel7;
@@ -622,11 +617,11 @@ private void displayUserData() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField lname;
     private javax.swing.JPanel logoutbtn;
     private javax.swing.JLabel profile;
     private javax.swing.JLabel profile1;
-    private javax.swing.JButton removeProfile;
     private javax.swing.JButton selectProfile;
     private javax.swing.JLabel settings;
     private javax.swing.JLabel update;

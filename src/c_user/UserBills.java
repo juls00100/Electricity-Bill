@@ -34,11 +34,33 @@ import a_config.session;
         this.name = loginName; 
         initComponents();
         displayBills(); 
+        config.styleButton(searchbtn,    "search");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav-active");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+    config.stylePanelButton(RECEIPT,   "receipt");
+    config.stylePanelButton(SOA,       "soa");
+    config.stylePanelButton(PENDING,   "pending");
+    config.stylePanelButton(PAID,      "paid");
+    config.stylePanelButton(PAY,       "pay");
     }
     public UserBills() {
         initComponents();
         this.name = loginName; 
         displayBills();
+        config.styleButton(searchbtn,    "search");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav-active");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+    config.stylePanelButton(RECEIPT,   "receipt");
+    config.stylePanelButton(SOA,       "soa");
+    config.stylePanelButton(PENDING,   "pending");
+    config.stylePanelButton(PAID,      "paid");
+    config.stylePanelButton(PAY,       "pay");
     }
 
     /**
@@ -55,7 +77,6 @@ import a_config.session;
         mybillstable = new javax.swing.JTable();
         searchfield = new javax.swing.JTextField();
         searchbtn = new javax.swing.JButton();
-        welcometxt2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         logoutbtn = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -79,6 +100,8 @@ import a_config.session;
         paid = new javax.swing.JLabel();
         PAY = new javax.swing.JPanel();
         pay = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -127,11 +150,6 @@ import a_config.session;
             }
         });
         jPanel5.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, 70, 30));
-
-        welcometxt2.setBackground(new java.awt.Color(0, 0, 0));
-        welcometxt2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
-        welcometxt2.setText("My Bills");
-        jPanel5.add(welcometxt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, 150, 50));
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
@@ -401,6 +419,17 @@ import a_config.session;
         PAY.add(pay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 2, 70, 30));
 
         jPanel5.add(PAY, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 70, 30));
+
+        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("My Bills");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -704,16 +733,15 @@ import a_config.session;
     if (row == -1) {
         JOptionPane.showMessageDialog(null, "Please select a bill to pay.");
     } else {
-        // Get data from the table model
-        String bid = mybillstable.getValueAt(row, 0).toString();
-        String amt = mybillstable.getValueAt(row, 1).toString();
+        String bid    = mybillstable.getValueAt(row, 0).toString();
+        String amt    = mybillstable.getValueAt(row, 1).toString();
         String status = mybillstable.getValueAt(row, 2).toString();
 
-        if (status.equals("Paid")) {
+        if (status.equalsIgnoreCase("Paid")) {
             JOptionPane.showMessageDialog(null, "This bill is already paid.");
         } else {
-            // Pass the Bill ID and Amount to PayBill
-            PayBill pb = new PayBill(bid, amt); 
+            // ✅ Use bid and amt, not billID and amount
+            PayBill pb = new PayBill(bid, amt, this.name);
             pb.setVisible(true);
             this.dispose();
         }
@@ -781,9 +809,11 @@ import a_config.session;
     private javax.swing.JLabel bills;
     private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel logoutbtn;
@@ -797,6 +827,5 @@ import a_config.session;
     private javax.swing.JTextField searchfield;
     private javax.swing.JLabel settings;
     private javax.swing.JLabel soa;
-    private javax.swing.JLabel welcometxt2;
     // End of variables declaration//GEN-END:variables
 }

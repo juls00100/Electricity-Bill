@@ -21,29 +21,38 @@ public class PayBill extends javax.swing.JFrame {
     // Paghimo og variables nga naggunit sa data
     String billID;
     String billAmount;
+    String name;
 
-    public PayBill(String bid, String amt) {
-        initComponents();
-        this.billID = bid;
-        this.billAmount = amt;
-       
+    public PayBill(String bid, String amt, String loginName) {
+    initComponents();
+    this.billID = bid;
+    this.billAmount = amt;
+    this.name = loginName; // ✅ ADD THIS
+
     amountduefield.setText(billAmount);
     amountduefield.setEditable(false);
-        amountduefield.setBackground(new java.awt.Color(240, 240, 240));
+    amountduefield.setBackground(new java.awt.Color(240, 240, 240));
 
-    }
+    config.stylePanelButton(UPDATE, "pay");
+    config.stylePanelButton(BACK,   "back");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav-active");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+}
 
-    // Siguroha nga naa gihapon ang default constructor para dili mo-error ang ubang parts
-    public PayBill() {
-        initComponents();
-    }
-    
-    
+public PayBill() {
+    initComponents();
 
-
-    
-    // ... ang ubang generated code ...
-
+    config.stylePanelButton(UPDATE, "pay");
+    config.stylePanelButton(BACK,   "back");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav-active");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,11 +74,24 @@ public class PayBill extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         amountduefield = new javax.swing.JTextField();
+        monthof1 = new javax.swing.JComboBox<>();
         BACK = new javax.swing.JPanel();
         back = new javax.swing.JLabel();
-        monthof1 = new javax.swing.JComboBox<>();
         UPDATE = new javax.swing.JPanel();
         update = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        logoutbtn = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        HOME = new javax.swing.JPanel();
+        home = new javax.swing.JLabel();
+        BILLS = new javax.swing.JPanel();
+        bills = new javax.swing.JLabel();
+        PROFILE = new javax.swing.JPanel();
+        profile = new javax.swing.JLabel();
+        SETTINGS = new javax.swing.JPanel();
+        settings = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         jLabel1.setBackground(new java.awt.Color(0, 204, 204));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -89,13 +111,13 @@ public class PayBill extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Pay Bill");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 60));
 
-        change.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
+        change.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Amount Due");
-        change.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 210, -1));
+        change.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 210, -1));
 
         methodcombobox.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         methodcombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Payment Method", "Gcash", "Cash", "Bank" }));
@@ -105,27 +127,37 @@ public class PayBill extends javax.swing.JFrame {
                 methodcomboboxActionPerformed(evt);
             }
         });
-        change.add(methodcombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 170, 40));
+        change.add(methodcombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, 170, 40));
 
         enteramountfield.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         enteramountfield.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
         enteramountfield.setPreferredSize(new java.awt.Dimension(350, 40));
-        change.add(enteramountfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 170, -1));
+        change.add(enteramountfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 130, 170, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel5.setText("Payment Method");
-        change.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 220, 150, -1));
+        change.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 210, 150, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setText("Enter Amount");
-        change.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 150, -1));
+        change.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 150, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel7.setText("Month");
-        change.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 150, -1));
+        change.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 150, -1));
 
         amountduefield.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        change.add(amountduefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 170, 40));
+        change.add(amountduefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 170, 40));
+
+        monthof1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        monthof1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "December" }));
+        monthof1.setPreferredSize(new java.awt.Dimension(350, 40));
+        monthof1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthof1ActionPerformed(evt);
+            }
+        });
+        change.add(monthof1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 170, 40));
 
         BACK.setBackground(new java.awt.Color(26, 26, 46));
         BACK.setForeground(new java.awt.Color(0, 153, 153));
@@ -154,17 +186,7 @@ public class PayBill extends javax.swing.JFrame {
         });
         BACK.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 40));
 
-        change.add(BACK, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 170, 40));
-
-        monthof1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        monthof1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "December" }));
-        monthof1.setPreferredSize(new java.awt.Dimension(350, 40));
-        monthof1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monthof1ActionPerformed(evt);
-            }
-        });
-        change.add(monthof1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, 170, 40));
+        change.add(BACK, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 360, 170, 40));
 
         UPDATE.setBackground(new java.awt.Color(57, 122, 0));
         UPDATE.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -192,7 +214,141 @@ public class PayBill extends javax.swing.JFrame {
         });
         UPDATE.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 170, -1));
 
-        change.add(UPDATE, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 170, 40));
+        change.add(UPDATE, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 170, 40));
+
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        logoutbtn.setBackground(new java.awt.Color(255, 0, 0));
+        logoutbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutbtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logoutbtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logoutbtnMouseExited(evt);
+            }
+        });
+        logoutbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("LOGOUT");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        logoutbtn.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+        logoutbtn.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jPanel1.add(logoutbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 170, 40));
+
+        HOME.setBackground(new java.awt.Color(0, 153, 153));
+        HOME.setForeground(new java.awt.Color(0, 153, 153));
+        HOME.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HOMEMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                HOMEMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                HOMEMouseExited(evt);
+            }
+        });
+        HOME.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        home.setBackground(new java.awt.Color(255, 255, 255));
+        home.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        home.setText("HOME");
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeMouseClicked(evt);
+            }
+        });
+        HOME.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 170, -1));
+
+        jPanel1.add(HOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 170, 40));
+
+        BILLS.setBackground(new java.awt.Color(0, 204, 204));
+        BILLS.setForeground(new java.awt.Color(0, 153, 153));
+        BILLS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BILLSMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BILLSMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                BILLSMouseExited(evt);
+            }
+        });
+        BILLS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        bills.setBackground(new java.awt.Color(0, 153, 153));
+        bills.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        bills.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bills.setText("BILLS");
+        BILLS.add(bills, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 160, 20));
+
+        jPanel1.add(BILLS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 170, 40));
+
+        PROFILE.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFILEMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                PROFILEMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                PROFILEMouseExited(evt);
+            }
+        });
+        PROFILE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        profile.setBackground(new java.awt.Color(255, 255, 255));
+        profile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile.setText("PROFILE");
+        PROFILE.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 140, -1));
+
+        jPanel1.add(PROFILE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 170, 40));
+
+        SETTINGS.setBackground(new java.awt.Color(0, 153, 153));
+        SETTINGS.setForeground(new java.awt.Color(0, 153, 153));
+        SETTINGS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseExited(evt);
+            }
+        });
+        SETTINGS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        settings.setBackground(new java.awt.Color(255, 255, 255));
+        settings.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        settings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        settings.setText("SETTINGS");
+        SETTINGS.add(settings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+
+        jPanel1.add(SETTINGS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 170, 40));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/powerr (1).png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 110, 90));
+
+        change.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 500));
 
         getContentPane().add(change, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
@@ -230,21 +386,35 @@ public class PayBill extends javax.swing.JFrame {
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
  try {
+        // 1. Validation: Ensure an amount is entered and a method is selected
+        if (enteramountfield.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter the cash amount.");
+            return;
+        }
+        
+        if (methodcombobox.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a payment method (Gcash/Paymaya/Cash).");
+            return;
+        }
+
         Connection conn = config.connectDB();
         
-        // 1. Get the account number invisibly from the session
-        // This replaces the need for a text field!
+        // 2. Prepare Data
         String accNum = session.getInstance().getAccnum(); 
-        String paymentMethod = methodcombobox.getSelectedItem().toString();
-        
+        String pMethod = methodcombobox.getSelectedItem().toString(); // This captures Gcash/Paymaya
         String dateToday = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+        
         double amount = Double.parseDouble(this.billAmount); 
         double cash = Double.parseDouble(enteramountfield.getText()); 
         double changeAmt = cash - amount;
 
-        String pMethod = methodcombobox.getSelectedItem().toString();
-        String sql = "INSERT INTO payments (bill_id, p_amount, p_cash, p_change, p_date, u_accnum, p_method) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
+        if (cash < amount) {
+            JOptionPane.showMessageDialog(null, "Insufficient cash amount!");
+            return;
+        }
+
+        // 3. INSERT into payments (Includes p_method)
+        String sql = "INSERT INTO payments (b_id, p_amount, p_cash, p_change, p_date, u_accnum, p_method) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, this.billID);
         pst.setDouble(2, amount);
@@ -253,34 +423,33 @@ public class PayBill extends javax.swing.JFrame {
         pst.setString(5, dateToday);
         pst.setString(6, accNum);
         pst.setString(7, pMethod); 
-        
         pst.executeUpdate();
 
-        // 3. Update Bill Status (Make sure column name is b_id or bill_id in your DB)
+        // 4. Update Bill Status to 'Paid'
         String updateBill = "UPDATE bills SET b_status = 'Paid' WHERE b_id = ?";
         PreparedStatement pstUpdate = conn.prepareStatement(updateBill);
         pstUpdate.setString(1, this.billID);
         pstUpdate.executeUpdate();
 
-        JOptionPane.showMessageDialog(null, "Payment Successful!");
+        JOptionPane.showMessageDialog(null, "Payment Successful via " + pMethod);
 
-        // 4. Pass data to the Receipt
+        // 5. Pass data to the Receipt
         String fullName = session.getInstance().getFname() + " " + session.getInstance().getLname();
-
-        // Use the Receipt file you have (BillReceipt)
         BillReceipt receipt = new BillReceipt(
             fullName, 
             accNum, 
             this.billID, 
             String.valueOf(amount), 
             String.valueOf(cash), 
-            paymentMethod, 
+            pMethod, // Passing the selected method to the receipt
             dateToday
         );
         receipt.setVisible(true);
         this.dispose();
 
         conn.close();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Invalid amount entered!");
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         e.printStackTrace();
@@ -299,6 +468,106 @@ public class PayBill extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_UPDATEMouseExited
 
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        session.getInstance().logout(this);
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void logoutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseClicked
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(null,
+            "Do you really want to log out?",
+            "Logout Confirmation",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            config conf = new config();
+            //conf.logEvent("User Logged Out");
+            login loginFrame = new login();
+            loginFrame.setVisible(true);
+            this.dispose();
+        } else {
+            System.out.println("Logout cancelled by user.");
+        }
+    }//GEN-LAST:event_logoutbtnMouseClicked
+
+    private void logoutbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseEntered
+
+    }//GEN-LAST:event_logoutbtnMouseEntered
+
+    private void logoutbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseExited
+
+    }//GEN-LAST:event_logoutbtnMouseExited
+
+    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
+        user_dashboard ud = new user_dashboard(); // I-pasa ang name
+        ud.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_homeMouseClicked
+
+    private void HOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HOMEMouseClicked
+
+    private void HOMEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseEntered
+
+    }//GEN-LAST:event_HOMEMouseEntered
+
+    private void HOMEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseExited
+
+    }//GEN-LAST:event_HOMEMouseExited
+
+    private void BILLSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseClicked
+        UserBills ub = new UserBills(this.name);
+        ub.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BILLSMouseClicked
+
+    private void BILLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseEntered
+
+    }//GEN-LAST:event_BILLSMouseEntered
+
+    private void BILLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseExited
+
+    }//GEN-LAST:event_BILLSMouseExited
+
+    private void PROFILEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseClicked
+        if (this.name == null || this.name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Session error: Username is missing!");
+            return;
+        }
+
+        // 2. Tawgon ang Profile class ug i-pasa ang username
+        Profile prof = new Profile(this.name);
+
+        // 3. I-pakita ang Profile window
+        prof.setVisible(true);
+
+        // 4. I-close (dispose) ang karaan nga Dashboard window
+        this.dispose();
+    }//GEN-LAST:event_PROFILEMouseClicked
+
+    private void PROFILEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseEntered
+
+    }//GEN-LAST:event_PROFILEMouseEntered
+
+    private void PROFILEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseExited
+
+    }//GEN-LAST:event_PROFILEMouseExited
+
+    private void SETTINGSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseClicked
+        Settings set = new Settings(this.name); // I-pasa ang name
+        set.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_SETTINGSMouseClicked
+
+    private void SETTINGSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseEntered
+
+    }//GEN-LAST:event_SETTINGSMouseEntered
+
+    private void SETTINGSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseExited
+
+    }//GEN-LAST:event_SETTINGSMouseExited
+
     public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
@@ -311,68 +580,34 @@ public class PayBill extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BACK;
+    private javax.swing.JPanel BILLS;
+    private javax.swing.JPanel HOME;
+    private javax.swing.JPanel PROFILE;
+    private javax.swing.JPanel SETTINGS;
     private javax.swing.JPanel UPDATE;
     private javax.swing.JTextField amountduefield;
     private javax.swing.JLabel back;
+    private javax.swing.JLabel bills;
     private javax.swing.JPanel change;
     private javax.swing.JTextField enteramountfield;
+    private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel logoutbtn;
     private javax.swing.JComboBox<String> methodcombobox;
     private javax.swing.JComboBox<String> monthof1;
+    private javax.swing.JLabel profile;
+    private javax.swing.JLabel settings;
     private javax.swing.JLabel update;
     // End of variables declaration//GEN-END:variables
 
-    private void savePaymentToDatabase(double amount, double cash, double changeAmt) {
-    try {
-        config conf = new config();
-        Connection conn = conf.connectDB();
-
-        // 1. Get the Account Number first so we can use it in the Insert
-        String userSql = "SELECT u_accnum FROM users WHERE u_username = (SELECT username FROM bills WHERE bill_id = ?)";
-        PreparedStatement pstUser = conn.prepareStatement(userSql);
-        pstUser.setString(1, this.billID);
-        ResultSet rs = pstUser.executeQuery();
-
-        if (rs.next()) {
-            String accNum = rs.getString("u_accnum");
-            String dateToday = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
-
-            // 2. Record the Payment (Now filling all 6 placeholders)
-            String sql = "INSERT INTO payments (b_id, p_amount, p_cash, p_change, p_date, u_accnum) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, this.billID);
-            pst.setDouble(2, amount);
-            pst.setDouble(3, cash);
-            pst.setDouble(4, changeAmt);
-            pst.setString(5, dateToday); // Missing value 1
-            pst.setString(6, accNum);    // Missing value 2
-            pst.executeUpdate();
-
-            // 3. Update Bill Status
-            String updateBill = "UPDATE bills SET b_status = 'Paid' WHERE bill_id = ?";
-            PreparedStatement pstUpdate = conn.prepareStatement(updateBill);
-            pstUpdate.setString(1, this.billID);
-            pstUpdate.executeUpdate();
-
-            // Bahagi ng savePaymentToDatabase sa PayBill.java
-       JOptionPane.showMessageDialog(null, "Payment Successful!");
-
-// Bubuksan nito ang Payment.java at ipapasa ang data
-         Payment receipt = new Payment(accNum, this.billID, String.valueOf(amount), String.valueOf(cash), String.valueOf(changeAmt), dateToday);
-          receipt.setVisible(true);
-          this.dispose();
-        }
-
-        conn.close();
-    } catch (Exception e) {
-        e.printStackTrace(); // This helps you see the exact error in the console
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-    }
-}
 }

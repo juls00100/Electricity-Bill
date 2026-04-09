@@ -5,6 +5,7 @@
  */
 package c_user;
 import a_config.session;
+import a_config.config;
 /**
  *
  * @author juls
@@ -16,6 +17,10 @@ public class StatementofAccount extends javax.swing.JFrame {
      */
     public StatementofAccount() {
         initComponents();
+         config.styleButton(closebtn,      "close");
+    config.styleButton(printreceipt1, "print");
+    config.stylePanelButton(PRINT, "print");
+    config.stylePanelButton(BACK,  "back");
         if (a_config.session.getInstance().getAccnum() == null) {
         javax.swing.JOptionPane.showMessageDialog(this, "Please login first!");
         this.dispose();

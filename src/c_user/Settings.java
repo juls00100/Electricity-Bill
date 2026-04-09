@@ -27,7 +27,13 @@ public class Settings extends javax.swing.JFrame {
 
     public Settings(String loginName) { // 2. Dawata diri
         initComponents();
-        this.name = loginName; // 3. I-save diri
+        this.name = loginName; 
+        config.stylePanelButton(logoutbtn,  "logout");
+    config.stylePanelButton(logoutbtn1, "update");
+    config.stylePanelButton(HOME,       "nav");
+    config.stylePanelButton(BILLS,      "nav");
+    config.stylePanelButton(PROFILE,    "nav");
+    config.stylePanelButton(SETTINGS,   "nav-active");
     }
 
     Settings() {
@@ -45,7 +51,6 @@ public class Settings extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         newpassword = new javax.swing.JPasswordField();
         jLabel14 = new javax.swing.JLabel();
         oldpassword = new javax.swing.JPasswordField();
@@ -67,18 +72,14 @@ public class Settings extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         logoutbtn1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 204));
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 600));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel9.setFont(new java.awt.Font("Lucida Sans", 3, 36)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Password Settings");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 350, 70));
 
         newpassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
         newpassword.setPreferredSize(new java.awt.Dimension(350, 40));
@@ -264,6 +265,17 @@ public class Settings extends javax.swing.JFrame {
         logoutbtn1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 170, -1));
 
         jPanel3.add(logoutbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, 170, 40));
+
+        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Password Settings");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -490,10 +502,11 @@ public class Settings extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel logoutbtn;
     private javax.swing.JPanel logoutbtn1;

@@ -5,6 +5,7 @@
  */
 package b_admin;
 
+
 import a_config.config;
 import a_config.config.usersession;
 import java.awt.Color;
@@ -16,24 +17,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import d_main.login;
-import c_user.Payment;
 import a_config.session;
 
 /**
  *
- * @author Administrator
+ * @author juls
  */
 public class Setting extends javax.swing.JFrame {
-     config db = new config(); 
-    // ...
-
+    config db = new config(); 
 
     /**
-     * Creates new form Setting
+     * Creates new form Setting1
      */
-   public Setting() {
-    initComponents();
-   }
+    public Setting() {
+        initComponents();
+        
+    config.stylePanelButton(PROFILE, "nav");
+    config.styleButton(update, "update");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav-active");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,37 +51,30 @@ public class Setting extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        newpassword = new javax.swing.JPasswordField();
-        jLabel14 = new javax.swing.JLabel();
-        oldpassword = new javax.swing.JPasswordField();
-        confirmpassfield = new javax.swing.JPasswordField();
-        jLabel16 = new javax.swing.JLabel();
-        changepassbtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         logoutbtn = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        userbtn = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        billsbtn = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        paymentbtn = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        settingsbtn = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        logsbtn = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        HOME = new javax.swing.JPanel();
+        home = new javax.swing.JLabel();
+        BILLS = new javax.swing.JPanel();
+        bills = new javax.swing.JLabel();
+        PROFILE = new javax.swing.JPanel();
+        profile = new javax.swing.JLabel();
+        SETTINGS = new javax.swing.JPanel();
+        settings = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        changerate = new javax.swing.JButton();
+        PROFILE1 = new javax.swing.JPanel();
+        profile2 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        changeratefield = new javax.swing.JTextField();
+        oldpassword = new javax.swing.JPasswordField();
+        jLabel14 = new javax.swing.JLabel();
+        newpassword = new javax.swing.JPasswordField();
+        jLabel16 = new javax.swing.JLabel();
+        confirmpassfield = new javax.swing.JPasswordField();
+        update = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -84,65 +83,11 @@ public class Setting extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 600));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel9.setFont(new java.awt.Font("Lucida Calligraphy", 1, 36)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Settings");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 190, 70));
-
-        newpassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        newpassword.setPreferredSize(new java.awt.Dimension(350, 40));
-        newpassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newpasswordActionPerformed(evt);
-            }
-        });
-        jPanel3.add(newpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 260, 240, -1));
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setText("New Password");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, -1, -1));
-
-        oldpassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        oldpassword.setPreferredSize(new java.awt.Dimension(350, 40));
-        jPanel3.add(oldpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, 240, -1));
-
-        confirmpassfield.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        confirmpassfield.setPreferredSize(new java.awt.Dimension(350, 40));
-        confirmpassfield.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmpassfieldActionPerformed(evt);
-            }
-        });
-        jPanel3.add(confirmpassfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 240, -1));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel16.setText("Confirm Password");
-        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, -1, -1));
-
-        changepassbtn.setBackground(new java.awt.Color(46, 134, 222));
-        changepassbtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        changepassbtn.setText("Change");
-        changepassbtn.setBorder(null);
-        changepassbtn.setPreferredSize(new java.awt.Dimension(350, 40));
-        changepassbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                changepassbtnMouseClicked(evt);
-            }
-        });
-        changepassbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changepassbtnActionPerformed(evt);
-            }
-        });
-        jPanel3.add(changepassbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 230, -1));
-
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        logoutbtn.setBackground(new java.awt.Color(0, 153, 153));
-        logoutbtn.setForeground(new java.awt.Color(44, 62, 80));
+        logoutbtn.setBackground(new java.awt.Color(255, 0, 0));
         logoutbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logoutbtnMouseClicked(evt);
@@ -157,179 +102,350 @@ public class Setting extends javax.swing.JFrame {
         logoutbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Logout");
-        logoutbtn.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        logoutbtn.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(logoutbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 200, 40));
-
-        userbtn.setBackground(new java.awt.Color(0, 153, 153));
-        userbtn.setForeground(new java.awt.Color(44, 62, 80));
-        userbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("LOGOUT");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                userbtnMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                userbtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                userbtnMouseExited(evt);
+                jLabel7MouseClicked(evt);
             }
         });
-        userbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        logoutbtn.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+        logoutbtn.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Users");
-        userbtn.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        userbtn.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jPanel1.add(logoutbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 170, 40));
 
-        jPanel1.add(userbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 200, 40));
-
-        billsbtn.setBackground(new java.awt.Color(0, 153, 153));
-        billsbtn.setForeground(new java.awt.Color(44, 62, 80));
-        billsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        HOME.setBackground(new java.awt.Color(0, 153, 153));
+        HOME.setForeground(new java.awt.Color(0, 153, 153));
+        HOME.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                billsbtnMouseClicked(evt);
+                HOMEMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                billsbtnMouseEntered(evt);
+                HOMEMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                billsbtnMouseExited(evt);
+                HOMEMouseExited(evt);
             }
         });
-        billsbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        HOME.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Bills");
-        billsbtn.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        billsbtn.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(billsbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 200, 40));
-
-        paymentbtn.setBackground(new java.awt.Color(0, 153, 153));
-        paymentbtn.setForeground(new java.awt.Color(44, 62, 80));
-        paymentbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        home.setBackground(new java.awt.Color(255, 255, 255));
+        home.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        home.setText("USERS");
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                paymentbtnMouseClicked(evt);
+                homeMouseClicked(evt);
+            }
+        });
+        HOME.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 160, -1));
+
+        jPanel1.add(HOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 150, 40));
+
+        BILLS.setBackground(new java.awt.Color(0, 153, 153));
+        BILLS.setForeground(new java.awt.Color(0, 153, 153));
+        BILLS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BILLSMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                paymentbtnMouseEntered(evt);
+                BILLSMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                paymentbtnMouseExited(evt);
+                BILLSMouseExited(evt);
             }
         });
-        paymentbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        BILLS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Payments");
-        paymentbtn.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        paymentbtn.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(paymentbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 200, 40));
-
-        settingsbtn.setBackground(new java.awt.Color(0, 153, 153));
-        settingsbtn.setForeground(new java.awt.Color(44, 62, 80));
-        settingsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        bills.setBackground(new java.awt.Color(0, 153, 153));
+        bills.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        bills.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bills.setText("BILLS");
+        bills.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                settingsbtnMouseClicked(evt);
+                billsMouseClicked(evt);
+            }
+        });
+        BILLS.add(bills, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 150, 20));
+
+        jPanel1.add(BILLS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 150, 40));
+
+        PROFILE.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFILEMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                settingsbtnMouseEntered(evt);
+                PROFILEMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                settingsbtnMouseExited(evt);
+                PROFILEMouseExited(evt);
             }
         });
-        settingsbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        PROFILE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Settings");
-        settingsbtn.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        settingsbtn.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel1.add(settingsbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 200, 40));
-
-        logsbtn.setBackground(new java.awt.Color(0, 153, 153));
-        logsbtn.setForeground(new java.awt.Color(44, 62, 80));
-        logsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        profile.setBackground(new java.awt.Color(255, 255, 255));
+        profile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile.setText("PAYMENTS");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logsbtnMouseClicked(evt);
+                profileMouseClicked(evt);
+            }
+        });
+        PROFILE.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+
+        jPanel1.add(PROFILE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 170, 40));
+
+        SETTINGS.setBackground(new java.awt.Color(0, 204, 204));
+        SETTINGS.setForeground(new java.awt.Color(0, 153, 153));
+        SETTINGS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logsbtnMouseEntered(evt);
+                SETTINGSMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                logsbtnMouseExited(evt);
+                SETTINGSMouseExited(evt);
             }
         });
-        logsbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        SETTINGS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Logs");
-        logsbtn.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
-        logsbtn.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        settings.setBackground(new java.awt.Color(255, 255, 255));
+        settings.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        settings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        settings.setText("SETTINGS");
+        settings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsMouseClicked(evt);
+            }
+        });
+        SETTINGS.add(settings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 140, -1));
 
-        jPanel1.add(logsbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 200, 40));
+        jPanel1.add(SETTINGS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 150, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/powerr (1).png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 100, 90));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 110, 90));
 
-        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 460));
-
-        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel19.setText("Electric Rate per kWh");
-        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, -1, -1));
-
-        changerate.setBackground(new java.awt.Color(46, 134, 222));
-        changerate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        changerate.setText("Change");
-        changerate.setBorder(null);
-        changerate.setPreferredSize(new java.awt.Dimension(350, 40));
-        changerate.addMouseListener(new java.awt.event.MouseAdapter() {
+        PROFILE1.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE1.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                changerateMouseClicked(evt);
+                PROFILE1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseExited(evt);
             }
         });
-        changerate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changerateActionPerformed(evt);
-            }
-        });
-        jPanel3.add(changerate, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 240, 200, -1));
+        PROFILE1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        profile2.setBackground(new java.awt.Color(255, 255, 255));
+        profile2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile2.setText("PROFILE");
+        profile2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profile2MouseClicked(evt);
+            }
+        });
+        PROFILE1.add(profile2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 130, -1));
+
+        jPanel1.add(PROFILE1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 170, 40));
+
+        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 500));
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel20.setText("Old Password");
-        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, -1, -1));
+        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 240, -1));
 
-        changeratefield.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        changeratefield.setPreferredSize(new java.awt.Dimension(350, 40));
-        jPanel3.add(changeratefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 240, -1));
+        oldpassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        oldpassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        oldpassword.setPreferredSize(new java.awt.Dimension(350, 40));
+        jPanel3.add(oldpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 340, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 460));
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel14.setText("New Password");
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 250, -1));
+
+        newpassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        newpassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        newpassword.setPreferredSize(new java.awt.Dimension(350, 40));
+        newpassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newpasswordActionPerformed(evt);
+            }
+        });
+        jPanel3.add(newpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 340, -1));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel16.setText("Confirm Password");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 270, -1));
+
+        confirmpassfield.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        confirmpassfield.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        confirmpassfield.setPreferredSize(new java.awt.Dimension(350, 40));
+        confirmpassfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmpassfieldActionPerformed(evt);
+            }
+        });
+        jPanel3.add(confirmpassfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 340, -1));
+
+        update.setBackground(new java.awt.Color(46, 134, 222));
+        update.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        update.setText("UPDATE");
+        update.setBorder(null);
+        update.setPreferredSize(new java.awt.Dimension(350, 40));
+        update.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateMouseClicked(evt);
+            }
+        });
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+        jPanel3.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, 130, -1));
+
+        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Settings");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 550, 60));
+
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void changepassbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changepassbtnMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_changepassbtnMouseClicked
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        session.getInstance().logout(this);
+    }//GEN-LAST:event_jLabel7MouseClicked
 
-    private void changepassbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changepassbtnActionPerformed
+    private void logoutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseClicked
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(null,
+            "Do you really want to log out?",
+            "Logout Confirmation",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            config conf = new config();
+            //conf.logEvent("User Logged Out");
+            login loginFrame = new login();
+            loginFrame.setVisible(true);
+            this.dispose();
+        } else {
+            System.out.println("Logout cancelled by user.");
+        }
+    }//GEN-LAST:event_logoutbtnMouseClicked
+
+    private void logoutbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseEntered
+
+    }//GEN-LAST:event_logoutbtnMouseEntered
+
+    private void logoutbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseExited
+
+    }//GEN-LAST:event_logoutbtnMouseExited
+
+    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
+        admin_dashboard ud = new admin_dashboard(); // I-pasa ang name
+        ud.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_homeMouseClicked
+
+    private void HOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HOMEMouseClicked
+
+    private void HOMEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseEntered
+
+    }//GEN-LAST:event_HOMEMouseEntered
+
+    private void HOMEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseExited
+
+    }//GEN-LAST:event_HOMEMouseExited
+
+    private void billsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsMouseClicked
+        Bills bp = new Bills(); // Ang page diin makita ang "Add" button
+        bp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_billsMouseClicked
+
+    private void BILLSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseClicked
+
+    }//GEN-LAST:event_BILLSMouseClicked
+
+    private void BILLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseEntered
+
+    }//GEN-LAST:event_BILLSMouseEntered
+
+    private void BILLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseExited
+
+    }//GEN-LAST:event_BILLSMouseExited
+
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+         Payment1 py = new Payment1();
+    py.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_profileMouseClicked
+
+    private void PROFILEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseClicked
+
+    }//GEN-LAST:event_PROFILEMouseClicked
+
+    private void PROFILEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseEntered
+
+    }//GEN-LAST:event_PROFILEMouseEntered
+
+    private void PROFILEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseExited
+
+    }//GEN-LAST:event_PROFILEMouseExited
+
+    private void settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsMouseClicked
+        Setting st = new Setting();
+        st.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_settingsMouseClicked
+
+    private void SETTINGSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseClicked
+
+    }//GEN-LAST:event_SETTINGSMouseClicked
+
+    private void SETTINGSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseEntered
+
+    }//GEN-LAST:event_SETTINGSMouseEntered
+
+    private void SETTINGSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseExited
+
+    }//GEN-LAST:event_SETTINGSMouseExited
+
+    private void newpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newpasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newpasswordActionPerformed
+
+    private void confirmpassfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmpassfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmpassfieldActionPerformed
+
+    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateMouseClicked
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         try {
             String oldPassRaw = new String(oldpassword.getPassword()).trim();
             String newPassRaw = new String(newpassword.getPassword()).trim();
@@ -356,7 +472,7 @@ public class Setting extends javax.swing.JFrame {
             usersession session = usersession.getInstance();
 
             // Query current password hash from database
-           Connection conn = db.connectDB();
+            Connection conn = db.connectDB();
             String selectQuery = "SELECT password FROM users WHERE id = ?";
             PreparedStatement selectPst = conn.prepareStatement(selectQuery);
             selectPst.setInt(1, session.getId());
@@ -404,192 +520,86 @@ public class Setting extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_changepassbtnActionPerformed
+    }//GEN-LAST:event_updateActionPerformed
 
-    private void logoutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseClicked
-     session.getInstance().logout(this);
-    }//GEN-LAST:event_logoutbtnMouseClicked
-
-    private void logoutbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseEntered
-       
-    }//GEN-LAST:event_logoutbtnMouseEntered
-
-    private void logoutbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseExited
-      
-    }//GEN-LAST:event_logoutbtnMouseExited
-
-    private void userbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userbtnMouseClicked
-   String currentName = config.getName(); 
-
-   // I-pasa ang name sa dashboard
-   // Siguroa nga ang admin_dashboard sa admin package nagdawat og String
-   new b_admin.admin_dashboard(currentName).setVisible(true);
-    this.dispose();
-
-
-    }//GEN-LAST:event_userbtnMouseClicked
-
-    private void userbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userbtnMouseEntered
-   
-    }//GEN-LAST:event_userbtnMouseEntered
-
-    private void userbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userbtnMouseExited
-       
-    }//GEN-LAST:event_userbtnMouseExited
-
-    private void billsbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsbtnMouseClicked
-        new Bills().setVisible(true);
+    private void profile2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile2MouseClicked
+        Profile prf = new Profile();
+        prf.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_billsbtnMouseClicked
+    }//GEN-LAST:event_profile2MouseClicked
 
-    private void billsbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsbtnMouseEntered
-        
-    }//GEN-LAST:event_billsbtnMouseEntered
+    private void PROFILE1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseClicked
 
-    private void billsbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsbtnMouseExited
-     
-    }//GEN-LAST:event_billsbtnMouseExited
+    }//GEN-LAST:event_PROFILE1MouseClicked
 
-    private void paymentbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentbtnMouseClicked
-        new Payment().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_paymentbtnMouseClicked
+    private void PROFILE1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseEntered
 
-    private void paymentbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentbtnMouseEntered
-   
-    }//GEN-LAST:event_paymentbtnMouseEntered
+    }//GEN-LAST:event_PROFILE1MouseEntered
 
-    private void paymentbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentbtnMouseExited
-       
-    }//GEN-LAST:event_paymentbtnMouseExited
+    private void PROFILE1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseExited
 
-    private void settingsbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsbtnMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_settingsbtnMouseClicked
+    }//GEN-LAST:event_PROFILE1MouseExited
 
-    private void settingsbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsbtnMouseEntered
-       
-    }//GEN-LAST:event_settingsbtnMouseEntered
-
-    private void settingsbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsbtnMouseExited
-   
-    }//GEN-LAST:event_settingsbtnMouseExited
-
-    private void logsbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsbtnMouseClicked
-        new Logs().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_logsbtnMouseClicked
-
-    private void logsbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsbtnMouseEntered
-       
-    }//GEN-LAST:event_logsbtnMouseEntered
-
-    private void logsbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsbtnMouseExited
-       
-    }//GEN-LAST:event_logsbtnMouseExited
-
-    private void changerateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changerateMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_changerateMouseClicked
-
-    private void changerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changerateActionPerformed
-     String newRateStr = changeratefield.getText().trim();
-    if (newRateStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a new rate.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    try {
-        double newRate = Double.parseDouble(newRateStr);
-        if (newRate <= 0) {
-            JOptionPane.showMessageDialog(this, "Rate must be a positive number.", "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // FIX: Gamita ang 'db' object nga gi-declare na nimo sa taas
-        Connection conn = db.connectDB(); 
-        
-        // FIX: PreparedStatement kinahanglan gikan sa 'conn' object
-        String updateQuery = "UPDATE tbl_bill SET rate_perkWh = ?";
-        PreparedStatement pst = conn.prepareStatement(updateQuery);
-        pst.setDouble(1, newRate);
-        
-        int rowsUpdated = pst.executeUpdate();
-        
-        // FIX: Isira ang resources
-        pst.close();
-        conn.close();
-
-        if (rowsUpdated > 0) {
-            JOptionPane.showMessageDialog(this, "Rate updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            changeratefield.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "No records updated. Check if tbl_bill has data.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Please enter a valid number for rate.", "Input Error", JOptionPane.ERROR_MESSAGE);
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    }//GEN-LAST:event_changerateActionPerformed
-
-    private void confirmpassfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmpassfieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirmpassfieldActionPerformed
-
-    private void newpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newpasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newpasswordActionPerformed
-
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-           
-            javax.swing.JOptionPane.showMessageDialog(null, "Direct access is forbidden! Please login first.");
-            new login().setVisible(true);
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    });
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Setting().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel billsbtn;
-    private javax.swing.JButton changepassbtn;
-    private javax.swing.JButton changerate;
-    private javax.swing.JTextField changeratefield;
+    private javax.swing.JPanel BILLS;
+    private javax.swing.JPanel HOME;
+    private javax.swing.JPanel PROFILE;
+    private javax.swing.JPanel PROFILE1;
+    public javax.swing.JPanel SETTINGS;
+    private javax.swing.JLabel bills;
     private javax.swing.JPasswordField confirmpassfield;
+    private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel logoutbtn;
-    private javax.swing.JPanel logsbtn;
     private javax.swing.JPasswordField newpassword;
     private javax.swing.JPasswordField oldpassword;
-    private javax.swing.JPanel paymentbtn;
-    private javax.swing.JPanel settingsbtn;
-    private javax.swing.JPanel userbtn;
+    private javax.swing.JLabel profile;
+    private javax.swing.JLabel profile2;
+    private javax.swing.JLabel settings;
+    private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
-
-    private void logAction(String action) {
-    System.out.println("Log: " + action); 
-}
 }

@@ -12,8 +12,10 @@ segoe ui bold 16 - for forms
 	255, 144, 0 - ORANGE
 
 [0,204,204] - cyan
+[0,153,153] - espeso cyan
+[26,26,46] -oxford
 
 
 700, 500 - lay out
 
-
+how about te add delete  and edit payments?

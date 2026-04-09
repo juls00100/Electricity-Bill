@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package b_admin;
-
+import a_config.session;
 import a_config.config; // Para sa imong database connection
 import java.sql.Connection; // Tinuod nga SQL Connection
 import java.sql.PreparedStatement; // Tinuod nga SQL PreparedStatement
@@ -24,11 +24,38 @@ public class AddBills extends javax.swing.JFrame {
     /**
      * Creates new form AddBills
      */
+    String name; // ADD THIS
+
+public AddBills(String loginName) { // ADD THIS CONSTRUCTOR
+    initComponents();
+    this.name = loginName;
+    loadAccountNumbers();
+
+    config.stylePanelButton(PROFILE, "nav");
+    config.stylePanelButton(SAVE,      "save");
+    config.stylePanelButton(CANCEL,    "cancel");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav-active");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(PROFILE1,  "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+}
+
+    
     public AddBills() {
-        initComponents();
-        loadAccountNumbers();
-        
-    }
+    initComponents();
+    loadAccountNumbers();
+
+    config.stylePanelButton(PROFILE, "nav");
+    config.stylePanelButton(SAVE,      "save");
+    config.stylePanelButton(CANCEL,    "cancel");
+    config.stylePanelButton(logoutbtn, "logout");
+    config.stylePanelButton(HOME,      "nav");
+    config.stylePanelButton(BILLS,     "nav-active");
+    config.stylePanelButton(PROFILE,   "nav");
+    config.stylePanelButton(SETTINGS,  "nav");
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,12 +97,27 @@ public class AddBills extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         accnum_drop = new javax.swing.JComboBox<>();
         duedate = new com.toedter.calendar.JDateChooser();
-        SAVE = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
         prev_read = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        SAVE = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
         CANCEL = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        logoutbtn = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        HOME = new javax.swing.JPanel();
+        home = new javax.swing.JLabel();
+        BILLS = new javax.swing.JPanel();
+        bills = new javax.swing.JLabel();
+        PROFILE = new javax.swing.JPanel();
+        profile = new javax.swing.JLabel();
+        SETTINGS = new javax.swing.JPanel();
+        settings = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        PROFILE1 = new javax.swing.JPanel();
+        profile2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,17 +131,17 @@ public class AddBills extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 3, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Add Bill");
-        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
+        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 60));
 
-        jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
+        jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 570, 60));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel6.setText("Due Date (MM/DD/YYYY):");
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 220, 210, -1));
+        jLabel6.setText("Due Date:");
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 210, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel9.setText("Previous kWh:");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 140, -1));
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 140, -1));
 
         monthcombobox.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         monthcombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "December" }));
@@ -109,7 +151,7 @@ public class AddBills extends javax.swing.JFrame {
                 monthcomboboxActionPerformed(evt);
             }
         });
-        jPanel5.add(monthcombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 250, 200, 40));
+        jPanel5.add(monthcombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 200, 40));
 
         curr_read.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         curr_read.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
@@ -119,15 +161,15 @@ public class AddBills extends javax.swing.JFrame {
                 curr_readKeyTyped(evt);
             }
         });
-        jPanel5.add(curr_read, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, 200, -1));
+        jPanel5.add(curr_read, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, 200, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel10.setText("Account Number:");
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 160, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 160, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel11.setText("Month:");
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 110, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 110, -1));
 
         accnum_drop.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         accnum_drop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Account Number" }));
@@ -137,8 +179,22 @@ public class AddBills extends javax.swing.JFrame {
                 accnum_dropActionPerformed(evt);
             }
         });
-        jPanel5.add(accnum_drop, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 410, 40));
-        jPanel5.add(duedate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 250, 200, 40));
+        jPanel5.add(accnum_drop, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 420, 40));
+        jPanel5.add(duedate, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, 200, 40));
+
+        prev_read.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        prev_read.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        prev_read.setPreferredSize(new java.awt.Dimension(350, 40));
+        prev_read.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                prev_readKeyTyped(evt);
+            }
+        });
+        jPanel5.add(prev_read, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 200, 40));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel13.setText("Current kWh:");
+        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 310, 130, -1));
 
         SAVE.setBackground(new java.awt.Color(57, 122, 0));
         SAVE.setForeground(new java.awt.Color(0, 153, 153));
@@ -170,21 +226,7 @@ public class AddBills extends javax.swing.JFrame {
         });
         SAVE.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        jPanel5.add(SAVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 430, 110, 30));
-
-        prev_read.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        prev_read.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        prev_read.setPreferredSize(new java.awt.Dimension(350, 40));
-        prev_read.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                prev_readKeyTyped(evt);
-            }
-        });
-        jPanel5.add(prev_read, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, 200, 40));
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel13.setText("Current kWh:");
-        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, 130, -1));
+        jPanel5.add(SAVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 410, 110, 30));
 
         CANCEL.setBackground(new java.awt.Color(255, 144, 0));
         CANCEL.setForeground(new java.awt.Color(0, 153, 153));
@@ -216,13 +258,190 @@ public class AddBills extends javax.swing.JFrame {
         });
         CANCEL.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        jPanel5.add(CANCEL, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 430, 110, 30));
+        jPanel5.add(CANCEL, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, 110, 30));
+
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setPreferredSize(new java.awt.Dimension(200, 100));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        logoutbtn.setBackground(new java.awt.Color(255, 0, 0));
+        logoutbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutbtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logoutbtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logoutbtnMouseExited(evt);
+            }
+        });
+        logoutbtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("LOGOUT");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        logoutbtn.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+        logoutbtn.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jPanel1.add(logoutbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 170, 40));
+
+        HOME.setBackground(new java.awt.Color(0, 153, 153));
+        HOME.setForeground(new java.awt.Color(0, 153, 153));
+        HOME.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HOMEMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                HOMEMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                HOMEMouseExited(evt);
+            }
+        });
+        HOME.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        home.setBackground(new java.awt.Color(255, 255, 255));
+        home.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        home.setText("USERS");
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeMouseClicked(evt);
+            }
+        });
+        HOME.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 160, -1));
+
+        jPanel1.add(HOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 150, 40));
+
+        BILLS.setBackground(new java.awt.Color(0, 204, 204));
+        BILLS.setForeground(new java.awt.Color(0, 153, 153));
+        BILLS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BILLSMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BILLSMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                BILLSMouseExited(evt);
+            }
+        });
+        BILLS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        bills.setBackground(new java.awt.Color(0, 153, 153));
+        bills.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        bills.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bills.setText("BILLS");
+        bills.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                billsMouseClicked(evt);
+            }
+        });
+        BILLS.add(bills, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 10, 150, 20));
+
+        jPanel1.add(BILLS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 170, 40));
+
+        PROFILE.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFILEMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                PROFILEMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                PROFILEMouseExited(evt);
+            }
+        });
+        PROFILE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        profile.setBackground(new java.awt.Color(255, 255, 255));
+        profile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile.setText("PAYMENTS");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileMouseClicked(evt);
+            }
+        });
+        PROFILE.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 150, -1));
+
+        jPanel1.add(PROFILE, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 170, 40));
+
+        SETTINGS.setBackground(new java.awt.Color(0, 153, 153));
+        SETTINGS.setForeground(new java.awt.Color(0, 153, 153));
+        SETTINGS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SETTINGSMouseExited(evt);
+            }
+        });
+        SETTINGS.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        settings.setBackground(new java.awt.Color(255, 255, 255));
+        settings.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        settings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        settings.setText("SETTINGS");
+        settings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsMouseClicked(evt);
+            }
+        });
+        SETTINGS.add(settings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 140, -1));
+
+        jPanel1.add(SETTINGS, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 150, 40));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/powerr (1).png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 110, 90));
+
+        PROFILE1.setBackground(new java.awt.Color(0, 153, 153));
+        PROFILE1.setForeground(new java.awt.Color(0, 153, 153));
+        PROFILE1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                PROFILE1MouseExited(evt);
+            }
+        });
+        PROFILE1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        profile2.setBackground(new java.awt.Color(255, 255, 255));
+        profile2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profile2.setText("PROFILE");
+        profile2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profile2MouseClicked(evt);
+            }
+        });
+        PROFILE1.add(profile2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 130, -1));
+
+        jPanel1.add(PROFILE1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 170, 40));
+
+        jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 720, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -368,6 +587,126 @@ public class AddBills extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CANCELMouseExited
 
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        session.getInstance().logout(this);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void logoutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseClicked
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(null,
+            "Do you really want to log out?",
+            "Logout Confirmation",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            config conf = new config();
+            //conf.logEvent("User Logged Out");
+            login loginFrame = new login();
+            loginFrame.setVisible(true);
+            this.dispose();
+        } else {
+            System.out.println("Logout cancelled by user.");
+        }
+    }//GEN-LAST:event_logoutbtnMouseClicked
+
+    private void logoutbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseEntered
+
+    }//GEN-LAST:event_logoutbtnMouseEntered
+
+    private void logoutbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutbtnMouseExited
+
+    }//GEN-LAST:event_logoutbtnMouseExited
+
+    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
+        admin_dashboard ud = new admin_dashboard(); // I-pasa ang name
+        ud.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_homeMouseClicked
+
+    private void HOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HOMEMouseClicked
+
+    private void HOMEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseEntered
+
+    }//GEN-LAST:event_HOMEMouseEntered
+
+    private void HOMEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseExited
+
+    }//GEN-LAST:event_HOMEMouseExited
+
+    private void billsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_billsMouseClicked
+        Bills bp = new Bills(); // Ang page diin makita ang "Add" button
+        bp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_billsMouseClicked
+
+    private void BILLSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseClicked
+
+    }//GEN-LAST:event_BILLSMouseClicked
+
+    private void BILLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseEntered
+
+    }//GEN-LAST:event_BILLSMouseEntered
+
+    private void BILLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BILLSMouseExited
+
+    }//GEN-LAST:event_BILLSMouseExited
+
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        Payment1 py = new Payment1();
+        py.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profileMouseClicked
+
+    private void PROFILEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseClicked
+
+    }//GEN-LAST:event_PROFILEMouseClicked
+
+    private void PROFILEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseEntered
+
+    }//GEN-LAST:event_PROFILEMouseEntered
+
+    private void PROFILEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILEMouseExited
+
+    }//GEN-LAST:event_PROFILEMouseExited
+
+    private void settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsMouseClicked
+        Setting st = new Setting();
+        st.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_settingsMouseClicked
+
+    private void SETTINGSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseClicked
+
+    }//GEN-LAST:event_SETTINGSMouseClicked
+
+    private void SETTINGSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseEntered
+
+    }//GEN-LAST:event_SETTINGSMouseEntered
+
+    private void SETTINGSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SETTINGSMouseExited
+
+    }//GEN-LAST:event_SETTINGSMouseExited
+
+    private void PROFILE1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseClicked
+        
+    }//GEN-LAST:event_PROFILE1MouseClicked
+
+    private void PROFILE1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseEntered
+
+    }//GEN-LAST:event_PROFILE1MouseEntered
+
+    private void PROFILE1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFILE1MouseExited
+
+    }//GEN-LAST:event_PROFILE1MouseExited
+
+    private void profile2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile2MouseClicked
+        Profile prf = new Profile();
+    prf.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_profile2MouseClicked
+
     public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
@@ -381,11 +720,19 @@ public class AddBills extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel BILLS;
     private javax.swing.JPanel CANCEL;
+    private javax.swing.JPanel HOME;
+    private javax.swing.JPanel PROFILE;
+    private javax.swing.JPanel PROFILE1;
     private javax.swing.JPanel SAVE;
+    public javax.swing.JPanel SETTINGS;
     private javax.swing.JComboBox<String> accnum_drop;
+    private javax.swing.JLabel bills;
     private javax.swing.JTextField curr_read;
     private com.toedter.calendar.JDateChooser duedate;
+    private javax.swing.JLabel home;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -393,11 +740,18 @@ public class AddBills extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel logoutbtn;
     private javax.swing.JComboBox<String> monthcombobox;
     private javax.swing.JTextField prev_read;
+    private javax.swing.JLabel profile;
+    private javax.swing.JLabel profile2;
+    private javax.swing.JLabel settings;
     // End of variables declaration//GEN-END:variables
 
 }

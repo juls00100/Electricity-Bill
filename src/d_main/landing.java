@@ -5,6 +5,8 @@
  */
 package d_main;
 
+import a_config.config;
+
 /**
  *
  * @author Administrator
@@ -16,6 +18,9 @@ public class landing extends javax.swing.JFrame {
      */
     public landing() {
         initComponents();
+        
+    config.stylePanelButton(LOGIN,    "login");
+    config.stylePanelButton(REGISTER, "register");
     }
 
     /**
@@ -28,9 +33,9 @@ public class landing extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        register = new javax.swing.JPanel();
+        REGISTER = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        register1 = new javax.swing.JPanel();
+        LOGIN = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -43,20 +48,20 @@ public class landing extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        register.setBackground(new java.awt.Color(26, 26, 46));
-        register.setForeground(new java.awt.Color(0, 153, 153));
-        register.addMouseListener(new java.awt.event.MouseAdapter() {
+        REGISTER.setBackground(new java.awt.Color(26, 26, 46));
+        REGISTER.setForeground(new java.awt.Color(0, 153, 153));
+        REGISTER.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                registerMouseClicked(evt);
+                REGISTERMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                registerMouseEntered(evt);
+                REGISTERMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                registerMouseExited(evt);
+                REGISTERMouseExited(evt);
             }
         });
-        register.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        REGISTER.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -68,24 +73,24 @@ public class landing extends javax.swing.JFrame {
                 jLabel7MouseClicked(evt);
             }
         });
-        register.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
+        REGISTER.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        jPanel1.add(register, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, 110, 30));
+        jPanel1.add(REGISTER, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, 110, 30));
 
-        register1.setBackground(new java.awt.Color(26, 26, 46));
-        register1.setForeground(new java.awt.Color(0, 153, 153));
-        register1.addMouseListener(new java.awt.event.MouseAdapter() {
+        LOGIN.setBackground(new java.awt.Color(26, 26, 46));
+        LOGIN.setForeground(new java.awt.Color(0, 153, 153));
+        LOGIN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                register1MouseClicked(evt);
+                LOGINMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                register1MouseEntered(evt);
+                LOGINMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                register1MouseExited(evt);
+                LOGINMouseExited(evt);
             }
         });
-        register1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        LOGIN.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -100,9 +105,9 @@ public class landing extends javax.swing.JFrame {
                 jLabel9MouseClicked(evt);
             }
         });
-        register1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
+        LOGIN.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        jPanel1.add(register1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 110, 30));
+        jPanel1.add(LOGIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 110, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/powerr (1).png"))); // NOI18N
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 80));
@@ -123,19 +128,19 @@ public class landing extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMouseClicked
+    private void REGISTERMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REGISTERMouseClicked
     register reg = new register();
     reg.setVisible(true);
     this.dispose();
-    }//GEN-LAST:event_registerMouseClicked
+    }//GEN-LAST:event_REGISTERMouseClicked
 
-    private void registerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMouseEntered
+    private void REGISTERMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REGISTERMouseEntered
 
-    }//GEN-LAST:event_registerMouseEntered
+    }//GEN-LAST:event_REGISTERMouseEntered
 
-    private void registerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMouseExited
+    private void REGISTERMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REGISTERMouseExited
 
-    }//GEN-LAST:event_registerMouseExited
+    }//GEN-LAST:event_REGISTERMouseExited
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         register reg = new register();
@@ -149,19 +154,19 @@ public class landing extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_jLabel9MouseClicked
 
-    private void register1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_register1MouseClicked
+    private void LOGINMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGINMouseClicked
     login log = new login();
     log.setVisible(true);
     this.dispose();
-    }//GEN-LAST:event_register1MouseClicked
+    }//GEN-LAST:event_LOGINMouseClicked
 
-    private void register1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_register1MouseEntered
+    private void LOGINMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGINMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_register1MouseEntered
+    }//GEN-LAST:event_LOGINMouseEntered
 
-    private void register1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_register1MouseExited
+    private void LOGINMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGINMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_register1MouseExited
+    }//GEN-LAST:event_LOGINMouseExited
 
     /**
      * @param args the command line arguments
@@ -199,13 +204,13 @@ public class landing extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel LOGIN;
+    private javax.swing.JPanel REGISTER;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel register;
-    private javax.swing.JPanel register1;
     // End of variables declaration//GEN-END:variables
 }
