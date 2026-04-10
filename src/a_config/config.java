@@ -14,6 +14,17 @@ import javax.swing.JTable;
 import java.sql.*;
 import javax.swing.*;
 import java.text.SimpleDateFormat;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfPTable;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.FileOutputStream;
 
 
 
@@ -468,6 +479,25 @@ public static void styleButton(javax.swing.JButton btn, String type) {
         public void mouseExited(java.awt.event.MouseEvent e)  { btn.setBackground(finalBg); }
     });
 }
+public void printPanel(JPanel panel) {
+    PrinterJob job = PrinterJob.getPrinterJob();
+    job.setJobName("Print Receipt");
+
+    job.setPrintable(new Printable() {
+        @Override
+        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
+            if (pageIndex > 0) return Printable.NO_SUCH_PAGE;
+            Graphics2D g2 = (Graphics2D) graphics;
+            g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+            panel.printAll(g2);
+            return Printable.PAGE_EXISTS;
+        }
+    });
+
+    if (job.printDialog()) {
+        try { job.print(); } catch (PrinterException e) { e.printStackTrace(); }
+    }
+}
 
 // For JPanel used as a button (SAVE, CANCEL, logoutbtn, HOME, BILLS, PROFILE, SETTINGS)
 public static void stylePanelButton(javax.swing.JPanel panel, String type) {
@@ -492,5 +522,115 @@ public static void stylePanelButton(javax.swing.JPanel panel, String type) {
         public void mouseEntered(java.awt.event.MouseEvent e) { panel.setBackground(finalBg.darker()); }
         public void mouseExited(java.awt.event.MouseEvent e)  { panel.setBackground(finalBg); }
     });
+}
+
+    // ===================== BILL RECEIPT PRINTER =====================
+public void printReceipt(String name, String acc, String bId, String pId, String date, String method, String amount) {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Save Receipt PDF");
+    fileChooser.setSelectedFile(new java.io.File("Receipt_" + bId + ".pdf"));
+    
+    if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(fileChooser.getSelectedFile().getAbsolutePath()));
+            document.open();
+
+            // Header
+            Paragraph header = new Paragraph("ELECTRIC BILLING SYSTEM - RECEIPT\n\n");
+            header.setAlignment(com.lowagie.text.Element.ALIGN_CENTER);
+            document.add(header);
+
+            // Create Table for alignment
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Customer Name:");   table.addCell(name);
+            table.addCell("Account Number:"); table.addCell(acc);
+            table.addCell("Bill ID:");        table.addCell(bId);
+            table.addCell("Payment ID:");     table.addCell(pId);
+            table.addCell("Date:");           table.addCell(date);
+            table.addCell("Method:");         table.addCell(method);
+            table.addCell("Total Paid:");     table.addCell("PHP " + amount);
+
+            document.add(table);
+            document.add(new Paragraph("\n\nThank you for your payment!"));
+            document.close();
+            
+            JOptionPane.showMessageDialog(null, "Receipt Generated Successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Printing Failed: " + e.getMessage());
+        }
+    }
+}
+
+
+public static void printBillReceipt(String billId) {
+    try {
+        Connection conn = connectDB();
+
+        // Fetch payment + user data in one query
+        String sql = "SELECT p.p_id, p.p_amount, p.p_cash, p.p_change, p.p_date, p.p_method, p.u_accnum, " +
+                     "u.u_fname, u.u_lname, u.u_address " +
+                     "FROM payments p " +
+                     "JOIN bills b ON p.b_id = b.b_id " +
+                     "JOIN users u ON b.u_id = u.u_id " +
+                     "WHERE p.b_id = ? " +
+                     "ORDER BY p.p_id DESC LIMIT 1";
+
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setInt(1, Integer.parseInt(billId.trim()));
+        ResultSet rs = pst.executeQuery();
+
+        if (!rs.next()) {
+            JOptionPane.showMessageDialog(null, "No payment record found for Bill ID: " + billId);
+            return;
+        }
+
+        String pid       = rs.getString("p_id");
+        String amount    = rs.getString("p_amount");
+        String cash      = rs.getString("p_cash");
+        String change    = rs.getString("p_change");
+        String date      = rs.getString("p_date");
+        String method    = rs.getString("p_method");
+        String accNum    = rs.getString("u_accnum");
+        String fullName  = (rs.getString("u_fname") + " " + rs.getString("u_lname")).toUpperCase();
+        String address   = rs.getString("u_address").toUpperCase();
+
+        rs.close(); pst.close(); conn.close();
+
+        // Build the receipt text
+        String line1 = "==================================================";
+        String line2 = "--------------------------------------------------";
+        StringBuilder sb = new StringBuilder();
+        sb.append(line1).append("\n");
+        sb.append("        ELECTRIC BILLING SYSTEM             \n");
+        sb.append("             OFFICIAL RECEIPT               \n");
+        sb.append(line1).append("\n\n");
+        sb.append(String.format(" %-14s %s%n", "NAME:",     fullName));
+        sb.append(String.format(" %-14s %s%n", "ACCT #:",   accNum));
+        sb.append(String.format(" %-14s %s%n", "ADDRESS:",  address));
+        sb.append("\n").append(line2).append("\n");
+        sb.append("  PAYMENT DETAILS\n");
+        sb.append(line2).append("\n");
+        sb.append(String.format(" %-14s %s%n",   "BILL ID:",    billId));
+        sb.append(String.format(" %-14s %s%n",   "PAYMENT ID:", pid));
+        sb.append(String.format(" %-14s %s%n",   "DATE:",       date));
+        sb.append(String.format(" %-14s %s%n",   "METHOD:",     method));
+        sb.append("\n").append(line2).append("\n");
+        sb.append(String.format(" %-14s PHP %s%n", "AMOUNT DUE:", amount));
+        sb.append(String.format(" %-14s PHP %s%n", "CASH:",       cash));
+        sb.append(String.format(" %-14s PHP %s%n", "CHANGE:",     change));
+        sb.append("\n").append(line1).append("\n");
+        sb.append("      THANK YOU FOR YOUR PAYMENT!      \n");
+        sb.append(line1);
+
+        // Print directly
+        javax.swing.JTextArea area = new javax.swing.JTextArea(sb.toString());
+        area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 10));
+        area.print(); // ← triggers the system print dialog automatically
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Print Error: " + e.getMessage());
+        e.printStackTrace();
+    }
 }
 }

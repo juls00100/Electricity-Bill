@@ -644,24 +644,61 @@ import a_config.session;
     }//GEN-LAST:event_SETTINGSMouseExited
 
     private void receiptMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receiptMouseClicked
-        int row = mybillstable.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(null, "Please select a bill first!");
-            return;
-        }
+    int row = mybillstable.getSelectedRow();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Please select a transaction first!");
+        return;
+    }
 
-        // Kuhaon ang data gikan sa selected row
-        String id = mybillstable.getValueAt(row, 0).toString();
-        String amount = mybillstable.getValueAt(row, 1).toString();
-        String status = mybillstable.getValueAt(row, 2).toString();
+    // 1. Kuhaa ang Bill ID gikan sa selected row sa table
+    String b_id = mybillstable.getValueAt(row, 0).toString();
+    String status = mybillstable.getValueAt(row, 2).toString();
 
-        // Ablihan ang BillReceipt frame
-        BillReceipt receipt = new BillReceipt();
-        receipt.setVisible(true);
+    // 2. Check kung PAID na ba (Dili pwede receipt kung wala pay bayad)
+    if (!status.equalsIgnoreCase("Paid")) {
+        JOptionPane.showMessageDialog(null, "This bill is not yet paid. No receipt available.");
+        return;
+    }
+
+    // 3. Create BillReceipt (Invisible)
+    BillReceipt br = new BillReceipt("", "", b_id, "", "", "", "");
+    
+    // 4. E-LOAD ANG DATA (Kani ang importante para mapuno ang labels)
+    br.loadReceipt(b_id);
+
+    // 5. PRINT DERECHO!
+    br.directPrint();
+    
+    JOptionPane.showMessageDialog(null, "Printing Receipt for Bill #" + b_id);
     }//GEN-LAST:event_receiptMouseClicked
 
     private void RECEIPTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RECEIPTMouseClicked
-        // TODO add your handling code here:
+        int row = mybillstable.getSelectedRow();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Please select a transaction first!");
+        return;
+    }
+
+    // 1. Kuhaa ang Bill ID gikan sa selected row sa table
+    String b_id = mybillstable.getValueAt(row, 0).toString();
+    String status = mybillstable.getValueAt(row, 2).toString();
+
+    // 2. Check kung PAID na ba (Dili pwede receipt kung wala pay bayad)
+    if (!status.equalsIgnoreCase("Paid")) {
+        JOptionPane.showMessageDialog(null, "This bill is not yet paid. No receipt available.");
+        return;
+    }
+
+    // 3. Create BillReceipt (Invisible)
+    BillReceipt br = new BillReceipt("", "", b_id, "", "", "", "");
+    
+    // 4. E-LOAD ANG DATA (Kani ang importante para mapuno ang labels)
+    br.loadReceipt(b_id);
+
+    // 5. PRINT DERECHO!
+    br.directPrint();
+    
+    JOptionPane.showMessageDialog(null, "Printing Receipt for Bill #" + b_id);
     }//GEN-LAST:event_RECEIPTMouseClicked
 
     private void RECEIPTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RECEIPTMouseEntered

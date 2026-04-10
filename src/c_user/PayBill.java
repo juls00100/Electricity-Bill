@@ -401,8 +401,8 @@ public PayBill() {
         
         // 2. Prepare Data
         String accNum = session.getInstance().getAccnum(); 
-        String pMethod = methodcombobox.getSelectedItem().toString(); // This captures Gcash/Paymaya
-        String dateToday = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+        String pMethod = methodcombobox.getSelectedItem().toString(); 
+        String dateToday = java.time.LocalDate.now().toString();
         
         double amount = Double.parseDouble(this.billAmount); 
         double cash = Double.parseDouble(enteramountfield.getText()); 
@@ -433,20 +433,19 @@ public PayBill() {
 
         JOptionPane.showMessageDialog(null, "Payment Successful via " + pMethod);
 
-        // 5. Pass data to the Receipt
-        String fullName = session.getInstance().getFname() + " " + session.getInstance().getLname();
-        BillReceipt receipt = new BillReceipt(
-            fullName, 
-            accNum, 
-            this.billID, 
-            String.valueOf(amount), 
-            String.valueOf(cash), 
-            pMethod, // Passing the selected method to the receipt
-            dateToday
-        );
-        receipt.setVisible(true);
-        this.dispose();
+                // 5. Pass data to the Receipt
+               // Inside your payment success block in PayBill.java
+               // 1. Kuhaa ang data gikan sa session ug fields
+        String nameForReceipt = session.getInstance().getFname() + " " + session.getInstance().getLname();
+        String accForReceipt = session.getInstance().getAccnum();
+        String method = methodcombobox.getSelectedItem().toString();
+        String date = java.time.LocalDate.now().toString();
 
+        // 2. Mao ni ang mopalit sa BillReceipt window nga naay sulod nga data
+        // Siguruha nga String ang billID nga gi-pasa
+        BillReceipt br = new BillReceipt(nameForReceipt, accForReceipt, this.billID, String.valueOf(amount), enteramountfield.getText(), method, date);
+        br.setVisible(true);
+        this.dispose();
         conn.close();
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(null, "Invalid amount entered!");

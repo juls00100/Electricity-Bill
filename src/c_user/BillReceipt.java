@@ -7,6 +7,9 @@ package c_user;
 
 import d_main.login;
 import a_config.config;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -21,25 +24,84 @@ public class BillReceipt extends javax.swing.JFrame {
 
     // KINI NGA CONSTRUCTOR DAPAT MAGTUGMA SA PAG-TAWAG NIMO SA PAYBILL.JAVA
     // Your current BillReceipt constructor:
-    public BillReceipt(String fullName, String accNum, String billId, String amt, String cash, String method, String date) {
+   // Replace your existing constructor in BillReceipt.java
+public BillReceipt(String fullName, String accNum, String billId, String amt, String cash, String method, String date) {
         initComponents();
-        customername.setText(fullName);
+
+        // 1. SET THE TEXT DIRECTLY - This prevents the blank screen
+        customername.setText(fullName.toUpperCase());
         customeraccountnumber.setText(accNum);
         billid.setText(billId);
-        paymentid.setText(amt);     // Note: You might want to rename 'paymentid' label to 'amount'
-        paymentdate.setText(cash);
-        paymentmethod.setText(method);;
-        amtpaid.setText(date);
-        config.styleButton(printreceipt, "print");
-    config.styleButton(closebtn,     "close");
-    }
-    // Default constructor (optional pero maayo naay ingon ani)
-    public BillReceipt() {
-        initComponents();
-        config.styleButton(printreceipt, "print");
-    config.styleButton(closebtn,     "close");
+        paymentdate.setText(date);
+        paymentmethod.setText(method);
+        amtpaid.setText("PHP " + amt);
+        
+        // 2. Fetch the actual Payment ID from the DB so it's not "REC-1"
+        loadPaymentId(billId);
+
     }
 
+// Simplified method to just get the ID
+    private void loadPaymentId(String bId) {
+        try {            Connection conn = config.connectDB();
+            String sql = "SELECT p_id FROM payments WHERE b_id = ? ORDER BY p_id DESC LIMIT 1";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, bId);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                paymentid.setText(String.valueOf(rs.getInt("p_id")));
+            } else {
+                paymentid.setText("PENDING");
+            }
+            conn.close();
+        } catch (Exception e) {
+            paymentid.setText("N/A");
+        }
+    }
+
+    public BillReceipt() {
+        initComponents();
+    }
+    
+    private void loadFromDatabase(String billId, String fullName, String accNum, String amt, String method, String date) {
+    // 1. Set the data immediately using the parameters passed from PayBill
+    // This ensures the receipt is NEVER blank even if the DB query fails.
+    customername.setText(fullName.toUpperCase());
+    customeraccountnumber.setText(accNum);
+    billid.setText(billId);
+    paymentdate.setText(date);
+    paymentmethod.setText(method);
+    amtpaid.setText("PHP " + amt);
+    paymentid.setText("LOADING..."); // Temporary placeholder
+
+    try {
+        a_config.config conf = new a_config.config();
+        java.sql.Connection conn = conf.connectDB();
+
+        // 2. Only fetch the Payment ID from the DB
+        String sql = "SELECT p_id FROM payments WHERE b_id = ? ORDER BY p_id DESC LIMIT 1";
+        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+        
+        // Use setString instead of parseInt to avoid "NumberFormatException"
+        pst.setString(1, billId.trim()); 
+        java.sql.ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            paymentid.setText(String.valueOf(rs.getInt("p_id")));
+        } else {
+            paymentid.setText("PENDING");
+        }
+
+        rs.close();
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        paymentid.setText("N/A");
+        System.out.println("Receipt DB fetch error: " + e.getMessage());
+    }
+}
 
 // Mas maayo kung maghimo ka og constructor nga modawat og data para sa resibo
 public void displayReceipt(String billID, String amount, String status) {
@@ -76,8 +138,6 @@ public void displayReceipt(String billID, String amount, String status) {
         paymentdate = new javax.swing.JLabel();
         paymentmethod = new javax.swing.JLabel();
         amtpaid = new javax.swing.JLabel();
-        printreceipt = new javax.swing.JButton();
-        closebtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,7 +156,7 @@ public void displayReceipt(String billID, String amount, String status) {
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 60));
 
         jLabel2.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(46, 134, 222));
         jLabel2.setText("Amount Paid:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 150, 30));
@@ -118,116 +178,82 @@ public void displayReceipt(String billID, String amount, String status) {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 110, 30));
 
         customername.setBackground(new java.awt.Color(46, 134, 222));
-        customername.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        customername.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         customername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         customername.setText("Name:");
-        jPanel1.add(customername, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 110, 30));
+        jPanel1.add(customername, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 110, 30));
 
         jLabel8.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(46, 134, 222));
         jLabel8.setText("Account Number:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 150, 30));
 
         jLabel9.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(46, 134, 222));
         jLabel9.setText("Bill ID:");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 150, 30));
 
         jLabel10.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(46, 134, 222));
         jLabel10.setText("Payment ID:");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 150, 30));
 
         jLabel11.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(46, 134, 222));
         jLabel11.setText("Payment Date:");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 150, 30));
 
         jLabel12.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(46, 134, 222));
         jLabel12.setText("Payment Method");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 150, 30));
 
         jLabel13.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(46, 134, 222));
         jLabel13.setText("Name:");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 110, 30));
 
         customeraccountnumber.setBackground(new java.awt.Color(46, 134, 222));
-        customeraccountnumber.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        customeraccountnumber.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         customeraccountnumber.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         customeraccountnumber.setText("AccNumber");
-        jPanel1.add(customeraccountnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, 110, 30));
+        jPanel1.add(customeraccountnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 170, 110, 30));
 
         billid.setBackground(new java.awt.Color(46, 134, 222));
-        billid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        billid.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         billid.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         billid.setText("BillID");
-        jPanel1.add(billid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, 160, 30));
+        jPanel1.add(billid, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 160, 30));
 
         paymentid.setBackground(new java.awt.Color(46, 134, 222));
-        paymentid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        paymentid.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         paymentid.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         paymentid.setText("PaymentID");
-        jPanel1.add(paymentid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 300, 160, 30));
+        jPanel1.add(paymentid, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 300, 160, 30));
 
         paymentdate.setBackground(new java.awt.Color(46, 134, 222));
-        paymentdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        paymentdate.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         paymentdate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         paymentdate.setText("PaymentDate");
-        jPanel1.add(paymentdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 160, 30));
+        jPanel1.add(paymentdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, 160, 30));
 
         paymentmethod.setBackground(new java.awt.Color(46, 134, 222));
-        paymentmethod.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        paymentmethod.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         paymentmethod.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         paymentmethod.setText("PaymentMethod");
-        jPanel1.add(paymentmethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 380, 160, 30));
+        jPanel1.add(paymentmethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 160, 30));
 
         amtpaid.setBackground(new java.awt.Color(46, 134, 222));
-        amtpaid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        amtpaid.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         amtpaid.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         amtpaid.setText("AmountPaid");
-        jPanel1.add(amtpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 160, 30));
-
-        printreceipt.setBackground(new java.awt.Color(46, 134, 222));
-        printreceipt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        printreceipt.setText("Print");
-        printreceipt.setBorder(null);
-        printreceipt.setPreferredSize(new java.awt.Dimension(350, 40));
-        printreceipt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                printreceiptMouseClicked(evt);
-            }
-        });
-        printreceipt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printreceiptActionPerformed(evt);
-            }
-        });
-        jPanel1.add(printreceipt, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, 140, 20));
-
-        closebtn.setBackground(new java.awt.Color(46, 134, 222));
-        closebtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        closebtn.setText("Close");
-        closebtn.setBorder(null);
-        closebtn.setPreferredSize(new java.awt.Dimension(350, 40));
-        closebtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closebtnMouseClicked(evt);
-            }
-        });
-        closebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closebtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(closebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 140, 20));
+        jPanel1.add(amtpaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 420, 160, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,24 +269,6 @@ public void displayReceipt(String billID, String amount, String status) {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void printreceiptMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printreceiptMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printreceiptMouseClicked
-
-    private void printreceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printreceiptActionPerformed
-        // Use PanelPrinter to print the jPanel1
-        a_config.Print printer = new a_config.Print(jPanel1);
-        printer.printPanel();
-    }//GEN-LAST:event_printreceiptActionPerformed
-
-    private void closebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closebtnMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_closebtnMouseClicked
-
-    private void closebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closebtnActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_closebtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,7 +287,6 @@ public void displayReceipt(String billID, String amount, String status) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel amtpaid;
     private javax.swing.JLabel billid;
-    private javax.swing.JButton closebtn;
     private javax.swing.JLabel customeraccountnumber;
     private javax.swing.JLabel customername;
     private javax.swing.JLabel jLabel1;
@@ -299,10 +306,48 @@ public void displayReceipt(String billID, String amount, String status) {
     private javax.swing.JLabel paymentdate;
     private javax.swing.JLabel paymentid;
     private javax.swing.JLabel paymentmethod;
-    private javax.swing.JButton printreceipt;
     // End of variables declaration//GEN-END:variables
 
-    public void loadReceipt(int billId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void directPrint() {
+    try {
+        // Kini nga method mokuha sa "jPanel1" (imong receipt design) 
+        // ug ipadala derecho sa printer.
+        a_config.config conf = new a_config.config();
+        conf.printPanel(jPanel1); 
+    } catch (Exception e) {
+        System.out.println("Print Error: " + e.getMessage());
     }
+}
+    
+  public void loadReceipt(String billId) {
+    try {
+        a_config.config conf = new a_config.config();
+        java.sql.Connection conn = conf.connectDB();
+        
+        // SQL JOIN: Gi-konektar ang payments (p) ug users (u)
+        String sql = "SELECT p.*, u.u_fname, u.u_lname, u.u_accnum FROM payments p " +
+                     "JOIN users u ON p.u_accnum = u.u_accnum " +
+                     "WHERE p.b_id = ?";
+        
+        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, billId);
+        java.sql.ResultSet rs = pst.executeQuery();
+        
+        if (rs.next()) {
+            // I-set ang tanang data nga kulang
+            customername.setText(rs.getString("u_fname").toUpperCase() + " " + rs.getString("u_lname").toUpperCase());
+            customeraccountnumber.setText(rs.getString("u_accnum"));
+            billid.setText(rs.getString("b_id"));
+            paymentid.setText("REC-" + rs.getInt("p_id"));
+            paymentdate.setText(rs.getString("p_date"));
+            paymentmethod.setText(rs.getString("p_method"));
+            amtpaid.setText("PHP " + rs.getString("p_amount"));
+        } else {
+            System.out.println("No payment record found for Bill ID: " + billId);
+        }
+        conn.close();
+    } catch (Exception e) {
+        System.out.println("Error pulling receipt data: " + e.getMessage());
+    }
+}
 }

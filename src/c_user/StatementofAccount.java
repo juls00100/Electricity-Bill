@@ -37,29 +37,23 @@ public class StatementofAccount extends javax.swing.JFrame {
     address.setText(sess.getAddress()); 
 }
     private void calculateTotal() {
-    try {
-        a_config.config conf = new a_config.config();
-        java.sql.Connection conn = conf.connectDB();
+    String sql = "SELECT SUM(b_amount) AS total FROM bills WHERE u_id = ? AND b_status = 'Pending'";
+    a_config.config conf = new a_config.config();
+    
+    // Using try-with-resources to ensure connection closes automatically
+    try (java.sql.Connection conn = conf.connectDB();
+         java.sql.PreparedStatement pst = conn.prepareStatement(sql)) {
         
-        // Get the current user's ID from the session
-        int userID = a_config.session.getInstance().getId();
+        pst.setInt(1, a_config.session.getInstance().getId());
         
-        // SQL to sum up all 'Pending' bills for this user
-        String sql = "SELECT SUM(b_amount) AS total FROM bills WHERE u_id = ? AND b_status = 'Pending'";
-        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-        pst.setInt(1, userID);
-        
-        java.sql.ResultSet rs = pst.executeQuery();
-        
-        if (rs.next()) {
-            double total = rs.getDouble("total");
-            // Update the label with the actual calculated total
-            totalamountlabel.setText("PHP " + String.format("%.2f", total));
+        try (java.sql.ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                double total = rs.getDouble("total");
+                totalamountlabel.setText("PHP " + String.format("%.2f", total));
+            }
         }
-        
-        conn.close();
-    } catch (Exception e) {
-        System.out.println("Error calculating total: " + e.getMessage());
+    } catch (java.sql.SQLException e) {
+        System.out.println("Database Error: " + e.getMessage());
     }
 }
 
@@ -83,8 +77,6 @@ public class StatementofAccount extends javax.swing.JFrame {
         customername = new javax.swing.JLabel();
         address = new javax.swing.JLabel();
         customeraccountnumber1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         totalamountlabel = new javax.swing.JLabel();
         address2 = new javax.swing.JLabel();
         closebtn = new javax.swing.JButton();
@@ -121,19 +113,19 @@ public class StatementofAccount extends javax.swing.JFrame {
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 60));
 
         jLabel13.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(46, 134, 222));
         jLabel13.setText("Name:");
         jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 150, 30));
 
         jLabel8.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(46, 134, 222));
         jLabel8.setText("Address:");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 150, 30));
 
         jLabel9.setBackground(new java.awt.Color(46, 134, 222));
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(46, 134, 222));
         jLabel9.setText("Account Number:");
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 150, 30));
@@ -142,45 +134,32 @@ public class StatementofAccount extends javax.swing.JFrame {
         customername.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         customername.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         customername.setText("Name:");
-        jPanel2.add(customername, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 270, 30));
+        jPanel2.add(customername, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 270, 30));
 
         address.setBackground(new java.awt.Color(46, 134, 222));
         address.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         address.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         address.setText("address");
-        jPanel2.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 270, 30));
+        jPanel2.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 270, 30));
 
         customeraccountnumber1.setBackground(new java.awt.Color(46, 134, 222));
         customeraccountnumber1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         customeraccountnumber1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         customeraccountnumber1.setText("AccNumber");
-        jPanel2.add(customeraccountnumber1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 270, 30));
-
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 650, 230));
+        jPanel2.add(customeraccountnumber1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 270, 30));
 
         totalamountlabel.setBackground(new java.awt.Color(46, 134, 222));
         totalamountlabel.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         totalamountlabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         totalamountlabel.setText("10,000.00");
-        jPanel2.add(totalamountlabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 400, 80, 30));
+        jPanel2.add(totalamountlabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 120, 30));
 
         address2.setBackground(new java.awt.Color(46, 134, 222));
-        address2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        address2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        address2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        address2.setForeground(new java.awt.Color(46, 134, 222));
+        address2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         address2.setText("Total Amount Due:");
-        jPanel2.add(address2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 400, 140, 30));
+        jPanel2.add(address2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 160, 30));
 
         closebtn.setBackground(new java.awt.Color(46, 134, 222));
         closebtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -216,8 +195,6 @@ public class StatementofAccount extends javax.swing.JFrame {
         });
         jPanel2.add(printreceipt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 520, 140, 20));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 440));
-
         PRINT.setBackground(new java.awt.Color(57, 122, 0));
         PRINT.setForeground(new java.awt.Color(0, 153, 153));
         PRINT.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -248,7 +225,7 @@ public class StatementofAccount extends javax.swing.JFrame {
         });
         PRINT.add(print, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        jPanel1.add(PRINT, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, 110, 30));
+        jPanel2.add(PRINT, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 220, -1, 30));
 
         BACK.setBackground(new java.awt.Color(26, 26, 46));
         BACK.setForeground(new java.awt.Color(0, 153, 153));
@@ -280,9 +257,11 @@ public class StatementofAccount extends javax.swing.JFrame {
         });
         BACK.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
 
-        jPanel1.add(BACK, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 460, 110, 30));
+        jPanel2.add(BACK, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, -1, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 260));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 270));
 
         pack();
         setLocationRelativeTo(null);
@@ -337,67 +316,53 @@ public class StatementofAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_printreceipt1ActionPerformed
 
     private void printMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printMouseClicked
-                java.awt.print.PrinterJob job = java.awt.print.PrinterJob.getPrinterJob();
-        job.setJobName("Print Statement of Account");
+         
+        PRINT.setVisible(false); // Ang JPanel button
+    BACK.setVisible(false);  // Ang Back button
+    print.setVisible(false); // Ang JLabel sa sulod sa PRINT panel
+    back.setVisible(false);  // Ang JLabel sa sulod sa BACK panel
 
-        job.setPrintable(new java.awt.print.Printable() {
-            @Override
-            public int print(java.awt.Graphics graphics, java.awt.print.PageFormat pageFormat, int pageIndex) {
-                if (pageIndex > 0) {
-                    return java.awt.print.Printable.NO_SUCH_PAGE;
-                }
+    // 2. TAWGON ang print function sa imong config
+    try {
+        a_config.config conf = new a_config.config();
+        
+        // MAO NI ANG SAKTO: I-print ang JPanel nga naggunit sa data
+        conf.printPanel(jPanel1); 
+        
+    } catch (Exception e) {
+        System.out.println("Print Error: " + e.getMessage());
+    }
 
-                java.awt.Graphics2D g2d = (java.awt.Graphics2D) graphics;
-                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-                g2d.scale(0.8, 0.8);
-
-                // Siguroha nga 'jPanel1' ang variable name sa imong panel sa Design tab
-                jPanel1.printAll(graphics);
-
-                return java.awt.print.Printable.PAGE_EXISTS;
-            }
-        });
-
-        boolean doPrint = job.printDialog();
-        if (doPrint) {
-            try {
-                job.print();
-            } catch (java.awt.print.PrinterException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Printer Error: " + e.getMessage());
-            }
-        }
+    // 3. I-SHOW og balik para magamit pa sa user
+    PRINT.setVisible(true);
+    BACK.setVisible(true);
+    print.setVisible(true);
+    back.setVisible(true);
     }//GEN-LAST:event_printMouseClicked
 
     private void PRINTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PRINTMouseClicked
-                java.awt.print.PrinterJob job = java.awt.print.PrinterJob.getPrinterJob();
-        job.setJobName("Print Statement of Account");
+        PRINT.setVisible(false); // Ang JPanel button
+    BACK.setVisible(false);  // Ang Back button
+    print.setVisible(false); // Ang JLabel sa sulod sa PRINT panel
+    back.setVisible(false);  // Ang JLabel sa sulod sa BACK panel
 
-        job.setPrintable(new java.awt.print.Printable() {
-            @Override
-            public int print(java.awt.Graphics graphics, java.awt.print.PageFormat pageFormat, int pageIndex) {
-                if (pageIndex > 0) {
-                    return java.awt.print.Printable.NO_SUCH_PAGE;
-                }
+    // 2. TAWGON ang print function sa imong config
+    try {
+        a_config.config conf = new a_config.config();
+        
+        // MAO NI ANG SAKTO: I-print ang JPanel nga naggunit sa data
+        conf.printPanel(jPanel1); 
+        
+    } catch (Exception e) {
+        System.out.println("Print Error: " + e.getMessage());
+    }
 
-                java.awt.Graphics2D g2d = (java.awt.Graphics2D) graphics;
-                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-                g2d.scale(0.8, 0.8);
+    // 3. I-SHOW og balik para magamit pa sa user
+    PRINT.setVisible(true);
+    BACK.setVisible(true);
+    print.setVisible(true);
+    back.setVisible(true);
 
-                // Siguroha nga 'jPanel1' ang variable name sa imong panel sa Design tab
-                jPanel1.printAll(graphics);
-
-                return java.awt.print.Printable.PAGE_EXISTS;
-            }
-        });
-
-        boolean doPrint = job.printDialog();
-        if (doPrint) {
-            try {
-                job.print();
-            } catch (java.awt.print.PrinterException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Printer Error: " + e.getMessage());
-            }
-        }
     }//GEN-LAST:event_PRINTMouseClicked
 
     private void PRINTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PRINTMouseEntered
@@ -480,8 +445,6 @@ public class StatementofAccount extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel logo;
     private javax.swing.JLabel print;
     private javax.swing.JButton printreceipt1;
